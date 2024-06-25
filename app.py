@@ -34,7 +34,6 @@ def process_filter():
         quary = f"""select superid,Service,toaddr,Status,createdon,Mailmessage,message as resultResponce,bcc from MailLog
                     where type = {log_type} and Status = '{status}' and createdon between '{chosen_date} 00:00:01' and 
                     '{chosen_date} 23:59:59'"""
-        print(quary)
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
         return render_template('sales-list - Copy.html', data=data)

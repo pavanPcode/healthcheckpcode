@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTables example - Custom Styling</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Custom styles for header */
+        .custom-header {
+            background-color: #6c757d; /* Dark grey header background */
+            color: #fff; /* White text color */
+        }
+
+        /* Logo styles */
+        .navbar-brand {
+            padding: 0px;
+            margin-right: 15px;
+        }
+
+        .navbar-brand img {
+            height: 50px; /* Adjust height as needed */
+            margin-top: 5px;
+        }
+
+        /* Adjust pagination position */
+        .dataTables_wrapper .dataTables_paginate {
+            float: right; /* Float pagination to the right */
+            margin-top: 10px; /* Add margin on top */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#800000">
+        <a class="navbar-brand" href="#">
+            <img src="https://perennialcode.in/wp-content/uploads/2023/11/cropped-pc_logo-3.jpg" alt="Logo">
+        </a>
+        <!-- You can add more navigation items if needed -->
+    </nav>
+
+    <div class="container-fluid mt-lg-5">
+        <div class="row table-responsive">
+            <!-- DataTables Table -->
+            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead class="custom-header">
+                    {% if data['ResultData'] %}
+                        <tr>
+                            {% for key in data['ResultData'][0].keys() %}
+                                <th>{{ key }}</th>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                </thead>
+                <tfoot>
+                    <tr>
+                        {% for key in data['ResultData'][0].keys() %}
+                            <th>{{ key }}</th>
+                        {% endfor %}
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for row in data['ResultData'] %}
+                        <tr>
+                            {% for key, value in row.items() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dataTables_paginate paging_simple_numbers float-right" id="example_paginate">
+                    <ul class="pagination">
+                        <li class="paginate_button page-item previous disabled" id="example_previous">
+                            <a href="#" aria-controls="example" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                        </li>
+                        <li class="paginate_button page-item active">
+                            <a href="#" aria-controls="example" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                        </li>
+                        <li class="paginate_button page-item next disabled" id="example_next">
+                            <a href="#" aria-controls="example" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 					<div class="page-header">
 						<div class="add-item d-flex">
 							<div class="page-title">
-								<h4>RollCall Logs</h4>
+								<h4>RollCall</h4>
 								<h6>Mails Logs</h6>
 							</div>
 						</div>
@@ -25,7 +25,7 @@
 							</li>
 						</ul>
 						<div class="page-btn">
-							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-sales-new">Notify Logs
+							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-sales-new">RollCall
 </a>
 						</div>
 					</div>
@@ -134,16 +134,12 @@
 												</td>
 												<td>{{ row['superid'] }}</td>
 												<td>
-												<button type="button" class="btn btn-info" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-info" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}">
-                                            mails
-                                        </button>
+                                            <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5"></i>
 												</td>
 												<td>{{ row['Subjectemail'] }}</td>
 												<td>{{ row['createdon'] }}</td>
 												<td>
-												<button type="button" class="btn btn-info" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-info" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}">
-                                            ccmails
-                                        </button>
+                                            <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5 "></i>
 												</td>
 												{% endfor %}
 											</tr>

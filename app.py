@@ -44,7 +44,8 @@ def process_filter():
 @app.route('/RolcallLogs')
 def RolcallLogs():
     try:
-        quary = """select top 25  superid,ToEmail toaddr,Subjectemail,createdon,ccemail  from  [PROD].[EmailAlerts] order by createdon desc;"""
+        quary = """select top 25  superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
+        [PROD].[EmailAlerts] order by createdon desc;"""
         sqlobj = mssqlhelper.MSSQLHelper()
         data = sqlobj.queryall(quary)
         if data['Status'] ==True:

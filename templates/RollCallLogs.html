@@ -118,6 +118,7 @@
 											<th>Subjectemail</th>
 											<th>createdOn</th>
 											<th>ccemail</th>
+											<th>BodyEmail</th>
                     					</tr>
 									</thead>
 
@@ -141,6 +142,20 @@
 												<td>
                                             <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5 "></i>
 												</td>
+												<td>
+
+														<button type="button" class="btn btn-primary" data-bs-custom-class="tooltip-light" data-bs-toggle="tooltip" data-bs-html="true" title="" data-bs-original-title="{{ row['BodyEmail'] }}">
+														  TEMPLATE
+														</button>
+<!--													<button class="btn btn-info"-->
+<!--														data-bs-toggle="modal"-->
+<!--														data-bs-target="#show-popup"-->
+<!--													>-->
+<!--														Popup-->
+<!--													</button>-->
+
+
+											</td>
 												{% endfor %}
 											</tr>
 
@@ -161,6 +176,33 @@
 					<!-- /product list -->
 				</div>
 			</div>
+
+			<div class="modal fade" id="show-popup">
+                <div class="modal-dialog modal-dialog-centered custom-modal-two">
+                    <div class="modal-content">
+                        <div class="page-wrapper-new p-0">
+                            <div class="content">
+                                <div class="modal-header border-0 custom-modal-header">
+                                    <div class="page-title">
+                                        <h4>Create Variant</h4>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        class="close d-flex ms-auto"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    >
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body custom-modal-body">
+                                   fgdfgfd
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 		<!-- /Main Wrapper -->

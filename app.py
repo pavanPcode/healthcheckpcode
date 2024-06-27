@@ -1,5 +1,6 @@
 from flask import Flask,render_template,request
 import mysqlhelper
+import mssqlhelper
 from datetime import datetime
 
 app = Flask(__name__)
@@ -10,14 +11,13 @@ def indexatt():
         quary = "select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc from MailLog;"
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
-        print(data)
-        return  render_template('sales-list - Copy.html', data=data)
+        if data['Status'] ==True:
+            return render_template('main.html',htmlpage = "NotifyLogs.html",data = data['ResultData'])
+
     except Exception as e:
-        # Simulate a server error (e.g., database connection error)
         return render_template('error-500.html', text=str(e)), 500
 
 
-# Define route to handle form submission
 @app.route('/process_filter', methods=['POST'])
 def process_filter():
     try :
@@ -25,10 +25,7 @@ def process_filter():
         log_type = request.form['log_type']
         status = request.form['status']
         chosen_date = request.form['chosen_date']
-        print(request.form)
-        print(f"Log Type: {log_type}, Status: {status}, Chosen Date: {chosen_date}")
         original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
-        # Format the datetime object into "yyyy-dd-mm" format
         chosen_date = original_date.strftime("%Y-%m-%d")
 
         quary = f"""select superid,Service,toaddr,Status,createdon,Mailmessage,message as resultResponce,bcc from MailLog
@@ -36,11 +33,27 @@ def process_filter():
                     '{chosen_date} 23:59:59'"""
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
-        return render_template('sales-list - Copy.html', data=data)
+        return render_template('main.html',htmlpage = "NotifyLogs.html", data=data['ResultData'])
 
     except Exception as e:
         # Simulate a server error (e.g., database connection error)
         return render_template('error-500.html', text=str(e)), 500
+
+
+
+@app.route('/RolcallLogs')
+def RolcallLogs():
+    try:
+        quary = """select top 25  superid,ToEmail toaddr,Subjectemail,createdon,ccemail  from  [PROD].[EmailAlerts] order by createdon desc;"""
+        sqlobj = mssqlhelper.MSSQLHelper()
+        data = sqlobj.queryall(quary)
+        if data['Status'] ==True:
+            return render_template('main.html',htmlpage = "RollCallLogs.html",data = data['ResultData'])
+
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
+
+
 
 # Custom 404 error handler
 @app.errorhandler(404)

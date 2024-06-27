@@ -115,10 +115,10 @@
 											</th>
 											<th>superId</th>
 											<th>toAddr</th>
-											<th>Subjectemail</th>
+											<th>subjectEmail</th>
 											<th>createdOn</th>
-											<th>ccemail</th>
-											<th>BodyEmail</th>
+											<th>ccEmail</th>
+											<th>bodyEmail</th>
                     					</tr>
 									</thead>
 
@@ -144,16 +144,15 @@
 												</td>
 												<td>
 
-														<button type="button" class="btn btn-primary" data-bs-custom-class="tooltip-light" data-bs-toggle="tooltip" data-bs-html="true" title="" data-bs-original-title="{{ row['BodyEmail'] }}">
-														  TEMPLATE
-														</button>
-<!--													<button class="btn btn-info"-->
-<!--														data-bs-toggle="modal"-->
-<!--														data-bs-target="#show-popup"-->
-<!--													>-->
-<!--														Popup-->
-<!--													</button>-->
+<!--														<button type="button" class="btn btn-primary" data-bs-custom-class="tooltip-light" data-bs-toggle="tooltip" data-bs-html="true" title="" data-bs-original-title="{{ row['BodyEmail'] }}">-->
+<!--														  Template-->
+<!--														</button>-->
+												<div class="card-body">
+													<div class="btn-list popover-list">
+														<button class="btn btn-primary" type="button" data-bs-toggle="popover" title="" data-bs-html="true" data-bs-content="{{ row['BodyEmail'] }}" data-bs-original-title="{{ row['Subjectemail'] }}">Template</button>
 
+													</div>
+												</div>
 
 											</td>
 												{% endfor %}
@@ -176,33 +175,6 @@
 					<!-- /product list -->
 				</div>
 			</div>
-
-			<div class="modal fade" id="show-popup">
-                <div class="modal-dialog modal-dialog-centered custom-modal-two">
-                    <div class="modal-content">
-                        <div class="page-wrapper-new p-0">
-                            <div class="content">
-                                <div class="modal-header border-0 custom-modal-header">
-                                    <div class="page-title">
-                                        <h4>Create Variant</h4>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        class="close d-flex ms-auto"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                    >
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body custom-modal-body">
-                                   fgdfgfd
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
 		<!-- /Main Wrapper -->

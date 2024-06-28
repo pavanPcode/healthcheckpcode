@@ -3,8 +3,8 @@
 					<div class="page-header">
 						<div class="add-item d-flex">
 							<div class="page-title">
-								<h4>RollCall</h4>
-								<h6>Mails Logs</h6>
+								<h4>Novotel Logs</h4>
+								<h6>Entrys count</h6>
 							</div>
 						</div>
 						<ul class="table-top-head">
@@ -25,7 +25,7 @@
 							</li>
 						</ul>
 						<div class="page-btn">
-							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-sales-new">RollCall
+							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-sales-new">Novotel
 </a>
 						</div>
 					</div>
@@ -52,7 +52,7 @@
 							</div>
 
 							<!-- /Filter -->
-							<form id="filterForm" action="/RollCall_filter" method="POST">
+							<form id="filterForm" action="/process" method="POST">
 
 							<div class="card" id="filter_inputs">
 								<div class="card-body pb-0">
@@ -60,13 +60,22 @@
 										<div class="col-lg-3 col-sm-6 col-12">
 											<div class="input-blocks">
 												<i data-feather="user" class="info-img"></i>
-												<select class="select" name="Subjectemail">
-													<option value="type">Subjectemail</option>
-													{% if filterdata and filterdata|length > 0 %}
-														{% for row in filterdata %}
-														<option value="{{ row[0] }}">{{ row[0] }}</option>
-														{% endfor %}
-													{% endif %}
+												<select class="select" name="log_type">
+													<option value="type">Logs</option>
+													<option value="4">whatsapp</option>
+													<option value="1">Mails</option>
+													<option value="2">MailAttachments</option>
+													<option value="3">MailWithBcc</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-lg-2 col-sm-6 col-12">
+											<div class="input-blocks">
+												<i data-feather="stop-circle" class="info-img"></i>
+												<select class="select" name="status">
+													<option value="status">Choose Status</option>
+													<option value="True">Success</option>
+													<option value="False">Failed</option>
 												</select>
 											</div>
 										</div>
@@ -104,12 +113,13 @@
 													<span class="checkmarks"></span>
 												</label>
 											</th>
-											<th>superId</th>
-											<th>toAddr</th>
-											<th>subjectEmail</th>
-											<th>createdOn</th>
-											<th>ccEmail</th>
-											<th>bodyEmail</th>
+											<th>dateOfTransaction</th>
+											<th>Entrycount</th>
+											<th>exitcount</th>
+											<th>inandouttotal</th>
+											<th>inandoutfind</th>
+											<th>type</th>
+											<th>cameratype</th>
                     					</tr>
 									</thead>
 
@@ -124,29 +134,13 @@
 														<span class="checkmarks"></span>
 													</label>
 												</td>
-												<td>{{ row['superid'] }}</td>
-												<td>
-                                            <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5"></i>
-												</td>
-												<td>{{ row['Subjectemail'] }}</td>
-												<td>{{ row['createdon'] }}</td>
-												<td>
-                                            <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5 "></i>
-												</td>
-												<td>
-
-<!--														<button type="button" class="btn btn-primary" data-bs-custom-class="tooltip-light" data-bs-toggle="tooltip" data-bs-html="true" title="" data-bs-original-title="{{ row['BodyEmail'] }}">-->
-<!--														  Template-->
-<!--														</button>-->
-												<div class="card-body">
-													<div class="btn-list popover-list">
-<!--														<button class="btn btn-primary" type="button" data-bs-toggle="popover" title="" data-bs-html="true" data-bs-content="{{ row['BodyEmail'] }}" data-bs-original-title="{{ row['Subjectemail'] }}">Template</button>-->
-														<button class="example-popover btn btn-primary" type="button" data-bs-trigger="hover"  data-bs-html="true" data-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="" data-offset="-20px -20px" data-bs-content="{{ row['BodyEmail'] }}" data-bs-original-title="{{ row['Subjectemail'] }}">Template</button>
-
-													</div>
-												</div>
-
-											</td>
+												<td>{{ row['dateoftransaction'] }}</td>
+												<td>{{ row['Entrycount'] }}</td>
+												<td>{{ row['exitcount'] }}</td>
+												<td>{{ row['inandouttotal'] }}</td>
+												<td>{{ row['inandoutfind'] }}</td>
+												<td>{{ row['type'] }}</td>
+												<td>{{ row['cameratype'] }}</td>
 												{% endfor %}
 											</tr>
 

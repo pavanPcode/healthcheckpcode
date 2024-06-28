@@ -11,8 +11,8 @@ def indexatt():
         quary = "select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc from MailLog;"
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
-        if data['Status'] ==True:
-            return render_template('main.html',htmlpage = "NotifyLogs.html",data = data['ResultData'])
+        #if data['Status'] ==True:
+        return render_template('main.html',htmlpage = "NotifyLogs.html",data = data['ResultData'])
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -44,17 +44,62 @@ def process_filter():
 @app.route('/RolcallLogs')
 def RolcallLogs():
     try:
-        quary = """select top 25  superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
+        quary = """select top 25  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
         [PROD].[EmailAlerts] order by createdon desc;"""
         sqlobj = mssqlhelper.MSSQLHelper()
         data = sqlobj.queryall(quary)
-        if data['Status'] ==True:
-            return render_template('main.html',htmlpage = "RollCallLogs.html",data = data['ResultData'])
+
+        filterquary = """SELECT DISTINCT Subjectemail FROM      [PROD].[EmailAlerts]"""
+        filter = sqlobj.queryall(filterquary)
+
+        #if data['Status'] ==True:
+        return render_template('main.html',htmlpage = "RollCallLogs.html",data = data['ResultData'],filterdata = filter['ResultData'])
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
 
+
+@app.route('/RollCall_filter', methods=['POST'])
+def RollCall_filter():
+    try :
+        # Retrieve form data
+        Subjectemail = request.form['Subjectemail']
+        chosen_date = request.form['chosen_date']
+        original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
+        chosen_date = original_date.strftime("%Y-%m-%d")
+
+        quary = f"""select  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail 
+                    from [PROD].[EmailAlerts] 
+                    where Subjectemail = '{Subjectemail}' and createdon 
+                    between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59'"""
+        sqlobj = mssqlhelper.MSSQLHelper()
+        data = sqlobj.queryall(quary)
+        filterquary = """SELECT DISTINCT Subjectemail FROM      [PROD].[EmailAlerts]"""
+        filter = sqlobj.queryall(filterquary)
+
+        #if data['Status'] == True:
+        return render_template('main.html', htmlpage="RollCallLogs.html", data=data['ResultData'],
+                                   filterdata=filter['ResultData'])
+
+
+    except Exception as e:
+        # Simulate a server error (e.g., database connection error)
+        return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/novotel')
+def novotel():
+    try:
+        quary = """SELECT Entrycount,exitcount,inandouttotal,inandoutfind,dateoftransaction,type,cameratype 
+        FROM Novotelhealthcheck order by id desc limit 50;"""
+        sqlobj = mysqlhelper.MySQLHelper()
+        data = sqlobj.queryall(quary)
+        if data['Status'] ==True:
+            return render_template('main.html',htmlpage = "Novotel.html",data = data['ResultData'])
+
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
 
 # Custom 404 error handler
 @app.errorhandler(404)

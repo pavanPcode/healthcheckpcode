@@ -1,7 +1,8 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,render_template_string
 import mysqlhelper
 import mssqlhelper
 from datetime import datetime
+import urllib.parse
 
 app = Flask(__name__)
 
@@ -44,7 +45,7 @@ def process_filter():
 @app.route('/RolcallLogs')
 def RolcallLogs():
     try:
-        quary = """select top 25  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
+        quary = """select top 100  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
         [PROD].[EmailAlerts] order by createdon desc;"""
         sqlobj = mssqlhelper.MSSQLHelper()
         data = sqlobj.queryall(quary)
@@ -100,6 +101,14 @@ def novotel():
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/mailtemplate', methods=['GET', 'POST'])
+def index():
+    templatestring = request.form.get('templatestring', '')
+    return render_template_string(templatestring)
+
+
 
 # Custom 404 error handler
 @app.errorhandler(404)

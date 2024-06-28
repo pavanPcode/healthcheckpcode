@@ -2,7 +2,6 @@ from flask import Flask,render_template,request,render_template_string
 import mysqlhelper
 import mssqlhelper
 from datetime import datetime
-import urllib.parse
 
 app = Flask(__name__)
 

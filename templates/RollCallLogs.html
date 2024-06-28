@@ -142,7 +142,7 @@
 <!--														<button class="btn btn-primary" type="button" data-bs-toggle="popover" title="" data-bs-html="true" data-bs-content="{{ row['BodyEmail'] }}" data-bs-original-title="{{ row['Subjectemail'] }}">Template</button>-->
 														<button class="example-popover btn btn-primary" type="button" data-bs-trigger="hover"  data-bs-html="true" data-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="" data-offset="-20px -20px" data-bs-content="{{ row['BodyEmail'] }}" data-bs-original-title="{{ row['Subjectemail'] }}">Template</button>
 
-														<form action="/mailtemplate" method="post">
+														<form action="/mailtemplate" method="post" target="_blank">
 															<input type="hidden" name="templatestring" value="{{ row['BodyEmail'] }}" >
 															<button class="btn btn-primary" type="submit">
 																<i class="fa fa-eye"></i>

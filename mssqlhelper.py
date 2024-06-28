@@ -2,12 +2,12 @@ import configparser
 import pyodbc
 
 # MSSQL database name
-dbname = 'rcalerts_Prod'
+# dbname = 'rcalerts_Prod'
 
 class MSSQLHelper:
     CONFIG_PATH = 'dbConfig.ini'
 
-    def __init__(self):
+    def __init__(self,dbname):
         config = configparser.ConfigParser()
         config.read(self.CONFIG_PATH)
         self.dbinfo = {

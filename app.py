@@ -5,10 +5,14 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+dbnamerollcall = 'rcalerts_Prod'
+dbbookmyot = 'bookmyot'
+
 @app.route('/')
 def indexatt():
     try:
-        quary = "select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc from MailLog;"
+        quary = """select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc from MailLog 
+                    order by createdon desc limit 100;"""
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
         #if data['Status'] ==True:
@@ -46,8 +50,9 @@ def RolcallLogs():
     try:
         quary = """select top 100  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
         [PROD].[EmailAlerts] order by createdon desc;"""
-        sqlobj = mssqlhelper.MSSQLHelper()
+        sqlobj = mssqlhelper.MSSQLHelper(dbnamerollcall)
         data = sqlobj.queryall(quary)
+        print(data)
 
         filterquary = """SELECT DISTINCT Subjectemail FROM      [PROD].[EmailAlerts]"""
         filter = sqlobj.queryall(filterquary)
@@ -73,7 +78,7 @@ def RollCall_filter():
                     from [PROD].[EmailAlerts] 
                     where Subjectemail = '{Subjectemail}' and createdon 
                     between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59'"""
-        sqlobj = mssqlhelper.MSSQLHelper()
+        sqlobj = mssqlhelper.MSSQLHelper(dbnamerollcall)
         data = sqlobj.queryall(quary)
         filterquary = """SELECT DISTINCT Subjectemail FROM      [PROD].[EmailAlerts]"""
         filter = sqlobj.queryall(filterquary)
@@ -106,6 +111,61 @@ def novotel():
 def index():
     templatestring = request.form.get('templatestring', '')
     return render_template_string(templatestring)
+
+
+
+
+@app.route('/BookMyOtLogs')
+def BookMyOtLogs():
+    try:
+        quary = """SELECT * FROM (
+    SELECT 
+        p.FirstName AS username,
+        e.title, 
+        e.Createdon, 
+        e.message 
+    FROM 
+        [dbo].[EmailNotifications] e
+    INNER JOIN 
+        Physician p ON p.id = e.PhysicianId
+    WHERE 
+        e.PhysicianId IS NOT NULL  
+        AND e.hosid IS NULL  
+        AND e.title IS NOT NULL
+
+    UNION ALL
+
+    SELECT 
+        h.name AS username, 
+        e.title, 
+        e.Createdon, 
+        e.message 
+    FROM 
+        [dbo].[EmailNotifications] e
+    INNER JOIN 
+        Hospital h ON h.id = e.hosid
+    WHERE  
+        e.PhysicianId IS NULL  
+        AND e.hosid IS NOT NULL  
+        AND e.title IS NOT NULL
+) AS CombinedResults
+ORDER BY 
+    Createdon DESC
+OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY;"""
+        sqlobj = mssqlhelper.MSSQLHelper(dbbookmyot)
+        data = sqlobj.queryall(quary)
+        print(data)
+
+        # filterquary = """SELECT DISTINCT Subjectemail FROM      [PROD].[EmailAlerts]"""
+        # filter = sqlobj.queryall(filterquary)
+        # filter = [('Hospitals',),('Physicians')]
+        filter = []
+
+        #if data['Status'] ==True:
+        return render_template('main.html',htmlpage = "BookMyOtLogs.html",data = data['ResultData'],filterdata = filter)
+
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
 
 
 

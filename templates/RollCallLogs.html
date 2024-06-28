@@ -105,9 +105,9 @@
 											</th>
 											<th>superId</th>
 											<th>toAddr</th>
+											<th>ccEmail</th>
 											<th>subjectEmail</th>
 											<th>createdOn</th>
-											<th>ccEmail</th>
 											<th>bodyEmail</th>
                     					</tr>
 									</thead>
@@ -127,11 +127,12 @@
 												<td>
                                             <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5"></i>
 												</td>
+												<td>
+                                            <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['ccemail'] }}" class="fa-regular fa-envelope text-primary fs-5 "></i>
+												</td>
 												<td>{{ row['Subjectemail'] }}</td>
 												<td>{{ row['createdon'] }}</td>
-												<td>
-                                            <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5 "></i>
-												</td>
+
 												<td>
 
 <!--														<button type="button" class="btn btn-primary" data-bs-custom-class="tooltip-light" data-bs-toggle="tooltip" data-bs-html="true" title="" data-bs-original-title="{{ row['BodyEmail'] }}">-->

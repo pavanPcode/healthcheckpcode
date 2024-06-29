@@ -1,9 +1,10 @@
-from flask import Flask,render_template,request,render_template_string,url_for,redirect
+from flask import Flask,render_template,request,render_template_string,url_for,redirect,session, flash
 import mysqlhelper
 import mssqlhelper
 from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_keyahfdkjhdsakjhdsal'
 
 dbnamerollcall = 'rcalerts_Prod'
 dbbookmyot = 'bookmyot'
@@ -98,16 +99,45 @@ def index():
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
+# Dummy database
+users = {
+    "test@example.com": {
+        "password": "password123"
+    }
+}
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     try:
-        if request.method == 'POST':
 
-            return render_template('signin.html')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        print(email,password)
+        if email == 'pavan@perennialcode.in' and password == 123:
+            session['email'] = email
+            flash('Login successful!', 'success')
+            return redirect(url_for('indexatt'))
+        else:
+            flash('Invalid credentials', 'danger')
         return render_template('signin.html')
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
+
+
+#
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     try:
+#         print(request.method)
+#         print(request.form)
+#         if request.method == 'POST':
+#
+#             return render_template('signin.html')
+#         return render_template('signin.html')
+#
+#     except Exception as e:
+#         return render_template('error-500.html', text=str(e)), 500
 
 @app.route('/BookMyOtmailLogs', methods=['GET', 'POST'])
 def BookMyOtmailLogs():

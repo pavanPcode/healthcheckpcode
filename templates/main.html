@@ -137,6 +137,7 @@
 							<div class="topnav-dropdown-footer">
 								<a href="activities.html">View all Notifications</a>
 							</div>
+
 						</div>
 					</li>
 					<!-- /Notifications -->
@@ -204,12 +205,16 @@
 												</ul>
 											</li>
 											<li><a href="calendar.html">whatsApp Logs</a></li>
-
 										</ul>
 									<li><a href="{{ url_for('RolcallLogs') }}"><i data-feather="book-open"></i><span>RollCall Mails</span></a></li>
+									<li class="submenu">
+									<a href="javascript:void(0);"><i data-feather="smartphone"></i><span>BookMyOt</span><span class="menu-arrow"></span></a>
+										<ul>
+											<li><a href="{{ url_for('BookMyOtmailLogs') }}">Mails Logs</a></li>
+											<li><a href="{{ url_for('BookMyOtMobileNotifications') }}">Mobile Notifications</a></li>
+										</ul>
+									</li>
 									<li><a href="{{ url_for('novotel') }}"><i data-feather="archive"></i><span>Novotel</span></a></li>
-
-										<li><a href="{{ url_for('BookMyOtLogs') }}"><i data-feather="calendar"></i><span>BookMyOT</span></a></li>
 									<li><a href="Fit4Life.html"><i data-feather="codepen"></i><span>Fit4Life</span></a></li>
 									<li><a href="CampusManagement.html"><i data-feather="git-merge"></i><span>CampusManagement </span></a></li>
 									</li>

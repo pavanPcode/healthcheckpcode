@@ -52,7 +52,7 @@
 							</div>
 
 							<!-- /Filter -->
-							<form id="filterForm" action="/process" method="POST">
+							<form id="filterForm" action="/novotel" method="POST">
 
 							<div class="card" id="filter_inputs">
 								<div class="card-body pb-0">
@@ -60,22 +60,10 @@
 										<div class="col-lg-3 col-sm-6 col-12">
 											<div class="input-blocks">
 												<i data-feather="user" class="info-img"></i>
-												<select class="select" name="log_type">
-													<option value="type">Logs</option>
-													<option value="4">whatsapp</option>
-													<option value="1">Mails</option>
-													<option value="2">MailAttachments</option>
-													<option value="3">MailWithBcc</option>
-												</select>
-											</div>
-										</div>
-										<div class="col-lg-2 col-sm-6 col-12">
-											<div class="input-blocks">
-												<i data-feather="stop-circle" class="info-img"></i>
-												<select class="select" name="status">
-													<option value="status">Choose Status</option>
-													<option value="True">Success</option>
-													<option value="False">Failed</option>
+												<select class="select" name="camera_type">
+													<option value="cameratype">CameraType</option>
+													<option value="maingate">MainEntry</option>
+													<option value="staffgate">Staff</option>
 												</select>
 											</div>
 										</div>
@@ -114,10 +102,6 @@
 												</label>
 											</th>
 											<th>dateOfTransaction</th>
-											<th>Entrycount</th>
-											<th>exitcount</th>
-											<th>inandouttotal</th>
-											<th>inandoutfind</th>
 											<th>type</th>
 											<th>cameratype</th>
                     					</tr>
@@ -135,10 +119,6 @@
 													</label>
 												</td>
 												<td>{{ row['dateoftransaction'] }}</td>
-												<td>{{ row['Entrycount'] }}</td>
-												<td>{{ row['exitcount'] }}</td>
-												<td>{{ row['inandouttotal'] }}</td>
-												<td>{{ row['inandoutfind'] }}</td>
 												<td>{{ row['type'] }}</td>
 												<td>{{ row['cameratype'] }}</td>
 												{% endfor %}
@@ -151,7 +131,7 @@
 							</div>
 
 							{% else %}
-								<td colspan="12" class="text-center">No Data Available</td>
+								<p class="text-center fs-2">No Data Available</p>
 								{% endif %}
 
 

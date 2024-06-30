@@ -83,6 +83,7 @@ def indexatt():
 @login_required
 def RolcallLogs():
     try:
+        name = session.get('name')
         if request.method == 'GET':
             quary = """select top 100  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
             [PROD].[EmailAlerts] order by createdon desc;"""
@@ -103,7 +104,7 @@ def RolcallLogs():
         filterquary = """SELECT DISTINCT Subjectemail FROM      [PROD].[EmailAlerts]"""
         filter = sqlobj.queryall(filterquary)
 
-        return render_template('main.html',htmlpage = "RollCallLogs.html",data = data['ResultData'],filterdata = filter['ResultData'])
+        return render_template('main.html',htmlpage = "RollCallLogs.html",data = data['ResultData'],filterdata = filter['ResultData'],name=name)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -112,6 +113,7 @@ def RolcallLogs():
 @login_required
 def novotel():
     try:
+        name = session.get('name')
         if request.method == 'GET':
             quary = """SELECT dateoftransaction,type,cameratype 
             FROM Novotelhealthcheck order by id desc limit 100;"""
@@ -128,7 +130,7 @@ def novotel():
 
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
-        return render_template('main.html', htmlpage="Novotel.html", data=data['ResultData'])
+        return render_template('main.html', htmlpage="Novotel.html", data=data['ResultData'],name=name)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -154,6 +156,7 @@ def index():
 @login_required
 def BookMyOtmailLogs():
     try:
+        name = session.get('name')
         if request.method == 'GET':
             quary = """SELECT * FROM (SELECT p.FirstName AS username,e.title, e.Createdon, e.message FROM [dbo].[EmailNotifications] e
                         INNER JOIN Physician p ON p.id = e.PhysicianId
@@ -192,7 +195,7 @@ def BookMyOtmailLogs():
 
         filterquary = """select DISTINCT Title from [dbo].[EmailNotifications] where Title is not null order by title desc"""
         filter = sqlobj.queryall(filterquary)
-        return render_template('main.html',htmlpage = "BookMyOtMails.html",data = data['ResultData'],filterdata = filter['ResultData'])
+        return render_template('main.html',htmlpage = "BookMyOtMails.html",data = data['ResultData'],filterdata = filter['ResultData'],name=name)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -202,6 +205,7 @@ def BookMyOtmailLogs():
 @login_required
 def BookMyOtMobileNotifications():
     try:
+        name = session.get('name')
         if request.method == 'GET':
             quary = """select top 200 n.Title,n.message,n.createdon,p.firstname,n.PhysicianId from [dbo].[Notifications]  n
                         inner join Physician p on p.id = n.PhysicianId order by n.createdon desc"""
@@ -217,7 +221,7 @@ def BookMyOtMobileNotifications():
         sqlobj = mssqlhelper.MSSQLHelper(dbbookmyot)
         data = sqlobj.queryall(quary)
 
-        return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'])
+        return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'],name=name)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500

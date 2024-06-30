@@ -135,15 +135,23 @@
 												</td>
 												<td>{{ row['superid'] }}</td>
 												<td>{{ row['Service'] }}</td>
-												<td>{{ row['toaddr'] }}</td>
 												<td>
-													{% if row['Status'] == 'True' %}
-														Success
+													{% if row['Service'] == 'sendwhatsapp' %}
+														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa fa-tty text-primary fs-5"></i>
 													{% else %}
-														Pending
+														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5"></i>
 													{% endif %}
 												</td>
-												<td>{{ row['Mailmessage'] }}</td>
+												<td>
+													{% if row['Status'] == 'True' %}
+														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="Success" class="fa fa-check text-primary fs-5"></i>
+													{% else %}
+														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="Failed" class="fa fa-times-circle text-primary fs-5"></i>
+													{% endif %}
+												</td>
+												<td >
+													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['Mailmessage'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
+												</td>
 												<td>{{ row['createdon'] }}</td>
 												{% endfor %}
 											</tr>

@@ -97,16 +97,16 @@
 							<i data-feather="maximize"></i>
 						</a>
 					</li>
-					<li class="nav-item nav-item-box">
-						<a href="email.html">
-							<i data-feather="mail"></i>
-							<span class="badge rounded-pill">1</span>
-						</a>
-					</li>
+<!--					<li class="nav-item nav-item-box">-->
+<!--						<a href="email.html">-->
+<!--							<i data-feather="mail"></i>-->
+<!--							<span class="badge rounded-pill">1</span>-->
+<!--						</a>-->
+<!--					</li>-->
 					<!-- Notifications -->
 					<li class="nav-item dropdown nav-item-box">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<i data-feather="bell"></i><span class="badge rounded-pill">2</span>
+							<i data-feather="bell"></i><span class="badge rounded-pill">1</span>
 						</a>
 						<div class="dropdown-menu notifications">
 							<div class="topnav-dropdown-header">
@@ -119,12 +119,11 @@
 										<a href="activities.html">
 											<div class="media d-flex">
 												<span class="avatar flex-shrink-0">
-													<img alt="" src="{{ url_for('static',filename='assets/img/profiles/avatar-02.jpg') }}">
+													<img alt="" src="{{ url_for('static',filename='assets/imgpcode/perennial_favicon.jpeg') }}">
 												</span>
 												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">John Doe</span> added
-														new task <span class="noti-title">Patient appointment booking</span>
-													</p>
+													<p class="noti-details"><span class="noti-title">{{name}}</span>, welcome to <span class="noti-title">PerennialCode Logs</span>.</p>
+
 													<p class="noti-time"><span class="notification-time">4 mins ago</span>
 													</p>
 												</div>
@@ -135,7 +134,7 @@
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="activities.html">View all Notifications</a>
+								<a href="#">View all Notifications</a>
 							</div>
 
 						</div>
@@ -149,7 +148,7 @@
 									<img src="{{ url_for('static',filename='assets/imgpcode/user.png') }}" alt="" class="img-fluid">
 								</span>
 								<span class="user-detail">
-									<span class="user-name">pavan</span>
+									<span class="user-name">{{name}}</span>
 									<span class="user-role">Super Admin</span>
 								</span>
 							</span>
@@ -160,15 +159,15 @@
 									<span class="user-img"><img src="{{ url_for('static',filename='assets/imgpcode/user.png') }}" alt="">
 										<span class="status online"></span></span>
 									<div class="profilesets">
-										<h6>Pavan</h6>
+										<h6>{{name}}</h6>
 										<h5>Super Admin</h5>
 									</div>
 								</div>
 								<hr class="m-0">
-								<a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My
-									Profile</a>
+<!--								<a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My-->
+<!--									Profile</a>-->
 								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="signin.html"><img
+								<a class="dropdown-item logout pb-0" href="{{ url_for('logout') }}"><img
 										src="{{ url_for('static',filename='assets/imgpcode/log-out.svg') }}" class="me-2" alt="img">Logout</a>
 							</div>
 						</div>
@@ -186,13 +185,7 @@
 							<li class="submenu-open">
 								<h6 class="submenu-hdr">Main</h6>
 								<ul>
-									<li class="submenu">
-										<a href="javascript:void(0);" ><i data-feather="grid"></i><span>Dashboard</span><span class="menu-arrow"></span></a>
-										<ul>
-											<li><a href="index.html">Admin Dashboard</a></li>
-											<li><a href="sales-dashboard.html">Sales Dashboard</a></li>
-										</ul>
-									</li>
+
 									<li class="submenu">
 										<a href="javascript:void(0);"><i data-feather="smartphone"></i><span>Notify</span><span class="menu-arrow"></span></a>
 										<ul>
@@ -215,14 +208,22 @@
 										</ul>
 									</li>
 									<li><a href="{{ url_for('novotel') }}"><i data-feather="archive"></i><span>Novotel</span></a></li>
-									<li><a href="Fit4Life.html"><i data-feather="codepen"></i><span>Fit4Life</span></a></li>
-									<li><a href="CampusManagement.html"><i data-feather="git-merge"></i><span>CampusManagement </span></a></li>
+
 									</li>
 								</ul>
 							</li>
 							<li class="submenu-open">
 								<h6 class="submenu-hdr">Others</h6>
 								<ul>
+									<li class="submenu">
+										<a href="javascript:void(0);" ><i data-feather="grid"></i><span>Dashboard</span><span class="menu-arrow"></span></a>
+										<ul>
+											<li><a href="index.html">Admin Dashboard</a></li>
+<!--											<li><a href="sales-dashboard.html">Sales Dashboard</a></li>-->
+										</ul>
+									</li>
+										<li><a href="Fit4Life.html"><i data-feather="codepen"></i><span>Fit4Life</span></a></li>
+									<li><a href="CampusManagement.html"><i data-feather="git-merge"></i><span>CampusManagement </span></a></li>
 <!--									<li><a href="product-list.html"><i data-feather="box"></i><span>Products</span></a></li>-->
 <!--									<li><a href="add-product.html"><i data-feather="plus-square"></i><span>Create Product</span></a></li>-->
 

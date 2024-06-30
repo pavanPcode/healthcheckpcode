@@ -2,16 +2,61 @@ from flask import Flask,render_template,request,render_template_string,url_for,r
 import mysqlhelper
 import mssqlhelper
 from datetime import datetime
+from functools import wraps
+from SignInCheck import verify
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_keyahfdkjhdsakjhdsal'
+app.secret_key = 'your_secret_keyahfdkjhdjjsakjrjt5jhdsal'
 
 dbnamerollcall = 'rcalerts_Prod'
 dbbookmyot = 'bookmyot'
 
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'crmemail1' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    try:
+        if request.method == 'GET':
+            return render_template('signin.html')
+        elif request.method == 'POST':
+
+            email = request.form['email']
+            plain_password = request.form['password']
+            result = verify(email,plain_password)
+            # if email == '123' and str(password) == '123':
+            if result['status']:
+                session['crmemail1'] = email
+                session['name'] = result['name']
+                # flash('Login successful!', 'success')
+                return redirect(url_for('indexatt'))
+            else:
+                # flash('Invalid credentials', 'danger')
+                return render_template('signin.html')
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/logout')
+def logout():
+    session.pop('crmemail1', None)
+    session.pop('name',None)
+    return redirect(url_for('login'))
+
+
+
 @app.route('/',methods=['POST','GET'])
+@login_required
 def indexatt():
     try:
+        name = session.get('name')
         if request.method == 'GET':
             quary = """select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc from MailLog 
                         order by createdon desc limit 100;"""
@@ -29,12 +74,13 @@ def indexatt():
                         '{chosen_date} 23:59:59'"""
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
-        return render_template('main.html', htmlpage="NotifyLogs.html", data=data['ResultData'])
+        return render_template('main.html', htmlpage="NotifyLogs.html", data=data['ResultData'],name=name)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
 @app.route('/RolcallLogs' ,methods=['POST','GET'])
+@login_required
 def RolcallLogs():
     try:
         if request.method == 'GET':
@@ -63,6 +109,7 @@ def RolcallLogs():
         return render_template('error-500.html', text=str(e)), 500
 
 @app.route('/novotel',methods=['POST','GET'])
+@login_required
 def novotel():
     try:
         if request.method == 'GET':
@@ -88,6 +135,7 @@ def novotel():
 
 
 @app.route('/mailtemplate', methods=['GET', 'POST'])
+@login_required
 def index():
     try:
         if request.method == 'POST':
@@ -99,47 +147,9 @@ def index():
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
-# Dummy database
-users = {
-    "test@example.com": {
-        "password": "password123"
-    }
-}
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    try:
-
-        email = request.form.get('email')
-        password = request.form.get('password')
-        print(email,password)
-        if email == 'pavan@perennialcode.in' and password == 123:
-            session['email'] = email
-            flash('Login successful!', 'success')
-            return redirect(url_for('indexatt'))
-        else:
-            flash('Invalid credentials', 'danger')
-        return render_template('signin.html')
-
-    except Exception as e:
-        return render_template('error-500.html', text=str(e)), 500
-
-
-#
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     try:
-#         print(request.method)
-#         print(request.form)
-#         if request.method == 'POST':
-#
-#             return render_template('signin.html')
-#         return render_template('signin.html')
-#
-#     except Exception as e:
-#         return render_template('error-500.html', text=str(e)), 500
 
 @app.route('/BookMyOtmailLogs', methods=['GET', 'POST'])
+@login_required
 def BookMyOtmailLogs():
     try:
         if request.method == 'GET':
@@ -187,6 +197,7 @@ def BookMyOtmailLogs():
 
 
 @app.route('/BookMyOtMobileNotifications', methods=['GET', 'POST'])
+@login_required
 def BookMyOtMobileNotifications():
     try:
         if request.method == 'GET':
@@ -201,10 +212,8 @@ def BookMyOtMobileNotifications():
                         inner join Physician p on p.id = n.PhysicianId 
                         WHERE n.createdon between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59'
                         order by n.createdon desc"""
-        print(quary)
         sqlobj = mssqlhelper.MSSQLHelper(dbbookmyot)
         data = sqlobj.queryall(quary)
-        print(data)
 
         return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'])
 
@@ -214,11 +223,13 @@ def BookMyOtMobileNotifications():
 
 # Custom 404 error handler
 @app.errorhandler(404)
+@login_required
 def page_not_found(error):
     return render_template('under-maintenance.html'), 404
 
 # Custom 500 error handler
 @app.errorhandler(500)
+@login_required
 def internal_server_error(error):
     return render_template('error-500.html'), 500
 

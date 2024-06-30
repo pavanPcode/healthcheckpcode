@@ -140,10 +140,12 @@ def index():
     try:
         if request.method == 'POST':
             templatestring = request.form.get('templatestring', '')
-            return redirect(url_for('index', templatestring=templatestring))
-        elif request.method == 'GET':
-            templatestring = request.args.get('templatestring', '')
             return render_template_string(templatestring)
+            # return redirect(url_for('index', templatestring=templatestring))
+        elif request.method == 'GET':
+            return redirect(url_for('RolcallLogs'))
+            # templatestring = request.args.get('templatestring', '')
+            # return render_template_string(templatestring)
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 

@@ -108,7 +108,7 @@ def RolcallLogs():
         role = session_data['role']
 
         if request.method == 'GET':
-            quary = """select top 2  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
+            quary = """select top 150  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
             [PROD].[EmailAlerts] order by createdon desc;"""
 
         elif request.method == 'POST':

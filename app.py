@@ -6,7 +6,7 @@ from functools import wraps
 from SignInCheck import verify
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_keyahfdkjhdjjkjrjt5jhdsal'
+app.secret_key = 'your_secret_keyahfdkjhdjjkjrjt7656565sal'
 
 dbnamerollcall = 'rcalerts_Prod'
 dbbookmyot = 'bookmyot'

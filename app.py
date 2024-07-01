@@ -35,6 +35,7 @@ def login():
             if result['status']:
                 session['crmemail1'] = email
                 session['name'] = result['name']
+                session['role'] = result['role']
                 # flash('Login successful!', 'success')
                 return redirect(url_for('indexatt'))
             else:
@@ -48,15 +49,34 @@ def login():
 def logout():
     session.pop('crmemail1', None)
     session.pop('name',None)
+    session.pop('role', None)
     return redirect(url_for('login'))
 
+def get_data_from_session():
+    name = session.get('name')
+    role = session.get('role')
+    if role == '1':
+        role = "Employee"
+    elif role == '2':
+        role = "Admin"
+    elif role == '3':
+        role = "Sales"
+    elif role == '4':
+        role = "Developer"
+    else:
+        role = role
+
+    return {'name':name,'role':role}
 
 
 @app.route('/',methods=['POST','GET'])
 @login_required
 def indexatt():
     try:
-        name = session.get('name')
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
         if request.method == 'GET':
             quary = """select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc from MailLog 
                         order by createdon desc limit 100;"""
@@ -74,7 +94,7 @@ def indexatt():
                         '{chosen_date} 23:59:59'"""
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
-        return render_template('main.html', htmlpage="NotifyLogs.html", data=data['ResultData'],name=name)
+        return render_template('main.html', htmlpage="NotifyLogs.html", data=data['ResultData'],name=name,role=role)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -83,9 +103,12 @@ def indexatt():
 @login_required
 def RolcallLogs():
     try:
-        name = session.get('name')
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
         if request.method == 'GET':
-            quary = """select top 100  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
+            quary = """select top 2  id,superid,ToEmail toaddr,Subjectemail,createdon,ccemail,BodyEmail  from  
             [PROD].[EmailAlerts] order by createdon desc;"""
 
         elif request.method == 'POST':
@@ -103,8 +126,7 @@ def RolcallLogs():
         data = sqlobj.queryall(quary)
         filterquary = """SELECT DISTINCT Subjectemail FROM      [PROD].[EmailAlerts]"""
         filter = sqlobj.queryall(filterquary)
-
-        return render_template('main.html',htmlpage = "RollCallLogs.html",data = data['ResultData'],filterdata = filter['ResultData'],name=name)
+        return render_template('main.html',htmlpage = "RollCallLogs.html",data = data['ResultData'],filterdata = filter['ResultData'],name=name,role=role)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -113,7 +135,9 @@ def RolcallLogs():
 @login_required
 def novotel():
     try:
-        name = session.get('name')
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
         if request.method == 'GET':
             quary = """SELECT dateoftransaction,type,cameratype 
             FROM Novotelhealthcheck order by id desc limit 100;"""
@@ -130,7 +154,7 @@ def novotel():
 
         sqlobj = mysqlhelper.MySQLHelper()
         data = sqlobj.queryall(quary)
-        return render_template('main.html', htmlpage="Novotel.html", data=data['ResultData'],name=name)
+        return render_template('main.html', htmlpage="Novotel.html", data=data['ResultData'],name=name,role=role)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -156,7 +180,9 @@ def index():
 @login_required
 def BookMyOtmailLogs():
     try:
-        name = session.get('name')
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
         if request.method == 'GET':
             quary = """SELECT * FROM (SELECT p.FirstName AS username,e.title, e.Createdon, e.message FROM [dbo].[EmailNotifications] e
                         INNER JOIN Physician p ON p.id = e.PhysicianId
@@ -195,7 +221,7 @@ def BookMyOtmailLogs():
 
         filterquary = """select DISTINCT Title from [dbo].[EmailNotifications] where Title is not null order by title desc"""
         filter = sqlobj.queryall(filterquary)
-        return render_template('main.html',htmlpage = "BookMyOtMails.html",data = data['ResultData'],filterdata = filter['ResultData'],name=name)
+        return render_template('main.html',htmlpage = "BookMyOtMails.html",data = data['ResultData'],filterdata = filter['ResultData'],name=name,role=role)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
@@ -205,7 +231,9 @@ def BookMyOtmailLogs():
 @login_required
 def BookMyOtMobileNotifications():
     try:
-        name = session.get('name')
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
         if request.method == 'GET':
             quary = """select top 200 n.Title,n.message,n.createdon,p.firstname,n.PhysicianId from [dbo].[Notifications]  n
                         inner join Physician p on p.id = n.PhysicianId order by n.createdon desc"""
@@ -221,7 +249,7 @@ def BookMyOtMobileNotifications():
         sqlobj = mssqlhelper.MSSQLHelper(dbbookmyot)
         data = sqlobj.queryall(quary)
 
-        return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'],name=name)
+        return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'],name=name,role=role)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500

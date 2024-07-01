@@ -6,7 +6,7 @@ from functools import wraps
 from SignInCheck import verify
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_keyahfdk343jhdjjkjrjt7656565sal'
+app.secret_key = 'your_secret_keyahfdk343jhdjjkjrjt765dgfgfggf6565sal'
 
 dbnamerollcall = 'rcalerts_Prod'
 dbbookmyot = 'bookmyot'
@@ -40,7 +40,7 @@ def login():
                 return redirect(url_for('indexatt'))
             else:
                 # flash('Invalid credentials', 'danger')
-                return render_template('signin.html')
+                return render_template('signin.html',ErrorMessage=result['message'])
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 

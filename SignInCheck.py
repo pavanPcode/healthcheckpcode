@@ -41,11 +41,12 @@ def verify(mail,plain_password):
                     if is_correct == True:
                         return {'status':True,'message':'Password match','name':name,'admin':admin,'role':role}
                     else:
-                        return {'status': False, 'message': 'Password not match'}
+                        return {'status': False, 'message': "*Invalid Credintials.."}
                 else:
-                    return {'status': False, 'message': 'mailid not found'}
+                    return {'status': False, 'message': "*Invalid Email Address.."}
         else:
             # print(f"Error: {response.status_code} - {response.text}")
-            return {'status': False, 'message': f"Error: {response.status_code} - {response.text}"}
+            return {'status': False, 'message': "*Invalid Email Address.."}
+            #return {'status': False, 'message': f"Error: {response.text}"}
     except Exception as e:
         return {'status': False, 'message': str(e)}

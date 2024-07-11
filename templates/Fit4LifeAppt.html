@@ -1,0 +1,188 @@
+			<div class="page-wrapper">
+				<div class="content">
+					<div class="page-header">
+						<div class="add-item d-flex">
+							<div class="page-title">
+								<h4>Fit4Life Appointment</h4>
+								<h6>Fit4Life Appointment Logs</h6>
+							</div>
+						</div>
+						<ul class="table-top-head">
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"><img src="{{ url_for('static',filename='assets/imgpcode/pdf.svg') }}" alt="img"></a>
+							</li>
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"><img src="{{ url_for('static',filename='assets/imgpcode/excel.svg') }}" alt="img"></a>
+							</li>
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Print"><i data-feather="printer" class="feather-rotate-ccw"></i></a>
+							</li>
+							<li>
+<!--								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i data-feather="rotate-ccw" class="feather-rotate-ccw"></i></a>-->
+									<a href="{{ url_for('indexatt') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh">
+										<i data-feather="rotate-ccw" class="feather-rotate-ccw"></i>
+									</a>
+
+							</li>
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i data-feather="chevron-up" class="feather-chevron-up"></i></a>
+							</li>
+						</ul>
+						<div class="page-btn">
+							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-sales-new">Fit4Life Appointment Logs
+</a>
+						</div>
+					</div>
+
+
+					<!-- /product list -->
+					<div class="card table-list-card" >
+						<div class="card-body" style="max-height: 100px, overflow-y:auto">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-input">
+										<a href="" class="btn btn-searchset"><i data-feather="search" class="feather-search"></i></a>
+									</div>
+								</div>
+								<div class="search-path">
+									<div class="d-flex align-items-center">
+										<a class="btn btn-filter" id="filter_search">
+											<i data-feather="filter" class="filter-icon"></i>
+											<span><img src="{{ url_for('static',filename='assets/imgpcode/closes.svg') }}" alt="img"></span>
+										</a>
+
+									</div>
+								</div>
+							</div>
+
+							<!-- /Filter -->
+<!--							<form id="filterForm" action="/" method="POST">-->
+
+<!--							<div class="card" id="filter_inputs">-->
+<!--								<div class="card-body pb-0">-->
+<!--									<div class="row">-->
+<!--										<div class="col-lg-3 col-sm-6 col-12">-->
+<!--											<div class="input-blocks">-->
+<!--												<i data-feather="user" class="info-img"></i>-->
+<!--												<select class="select" name="log_type">-->
+<!--													<option value="type">Logs</option>-->
+<!--													<option value="4">whatsapp</option>-->
+<!--													<option value="1">Mails</option>-->
+<!--													<option value="2">MailAttachments</option>-->
+<!--													<option value="3">MailWithBcc</option>-->
+<!--												</select>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<div class="col-lg-2 col-sm-6 col-12">-->
+<!--											<div class="input-blocks">-->
+<!--												<i data-feather="stop-circle" class="info-img"></i>-->
+<!--												<select class="select" name="status">-->
+<!--													<option value="status">Choose Status</option>-->
+<!--													<option value="True">Success</option>-->
+<!--													<option value="False">Failed</option>-->
+<!--												</select>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<div class="col-lg-2 col-sm-6 col-12">-->
+<!--											<div class="input-blocks">-->
+<!--												<div class="input-groupicon calender-input">-->
+<!--													<i data-feather="calendar" class="info-img"></i>-->
+<!--														<input type="text" class="datetimepicker" name="chosen_date" placeholder="Choose Date" required>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
+
+<!--										<div class="col-lg-2 col-sm-6 col-12" >-->
+<!--											<div class="input-blocks">-->
+<!--&lt;!&ndash;												<a class="btn btn-filters ms-auto"> <i data-feather="search" class="feather-search"></i> Search </a>&ndash;&gt;-->
+<!--													                        <button type="submit" class="btn btn-filters ms-auto"><i data-feather="search" class="feather-search"></i> Search</button>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							</form>-->
+
+							<!-- /Filter -->
+							{% if data and data|length > 0 %}
+							<div class="table-responsive">
+
+								<table class="table  datanew">
+
+									<thead>
+										<tr>
+											<th class="no-sort">
+												<label class="checkboxs">
+													<input type="checkbox" id="select-all">
+													<span class="checkmarks"></span>
+												</label>
+											</th>
+											<th>customername</th>
+											<th>ApppointmentDt</th>
+											<th>StartTime</th>
+											<th>Endtime</th>
+											<th>Status</th>
+											<th>Mobile</th>
+											<th>CreatedOn</th>
+                    					</tr>
+									</thead>
+
+
+									<tbody class="sales-list">
+
+										{% for row in data %}
+											<tr>
+												<td>
+													<label class="checkboxs">
+														<input type="checkbox">
+														<span class="checkmarks"></span>
+													</label>
+												</td>
+												<td>{{ row['customername'] }}</td>
+												<td>{{ row['ApppointmentDt'] }}</td>
+												<td>{{ row['StartTime'] }}</td>
+												<td>{{ row['Endtime'] }}</td>
+												<td>{{ row['Status'] }}</td>
+												<td>{{ row['Mobile'] }}</td>
+												<td>{{ row['CreatedOn'] }}</td>
+<!--												<td>-->
+<!--													{% if row['Service'] == 'sendwhatsapp' %}-->
+<!--														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa fa-tty text-primary fs-5"></i>-->
+<!--													{% else %}-->
+<!--														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5"></i>-->
+<!--													{% endif %}-->
+<!--												</td>-->
+<!--												<td>-->
+<!--													{% if row['Status'] == 'True' %}-->
+<!--														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="Success" class="fa fa-check text-primary fs-5"></i>-->
+<!--													{% else %}-->
+<!--														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="Failed" class="fa fa-times-circle text-primary fs-5"></i>-->
+<!--													{% endif %}-->
+<!--												</td>-->
+<!--												<td >-->
+<!--													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['Mailmessage'] }}" class="fa-regular fa-comment text-primary fs-5"></i>-->
+<!--												</td>-->
+<!--												<td>{{ row['createdon'] }}</td>-->
+												{% endfor %}
+											</tr>
+
+									</tbody>
+
+								</table>
+
+							</div>
+
+							{% else %}
+								<p class="text-center fs-2">No Data Available</p>
+								{% endif %}
+
+
+
+						</div>
+					</div>
+					<!-- /product list -->
+				</div>
+			</div>
+
+        </div>
+		<!-- /Main Wrapper -->

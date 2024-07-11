@@ -122,7 +122,7 @@
 											<th>Description</th>
 											<th>startdate</th>
 											<th>EndDate</th>
-											<th>filepath</th>
+											<th>Image</th>
                     					</tr>
 									</thead>
 
@@ -142,7 +142,14 @@
 												<td>{{ row['Description'] }}</td>
 												<td>{{ row['startdate'] }}</td>
 												<td>{{ row['EndDate'] }}</td>
-												<td>{{ row['filepath'] }}</td>
+												<td>
+												<form action="/campusimgs" method="post" target="_blank">
+															<input type="hidden" name="campusimgs" value="{{ row['filepath'] }}" >
+															<button class="btn btn-primary" type="submit">
+																<i class="fa fa-eye"></i>
+															</button>
+													</form>
+												</td>
 <!--												<td>-->
 <!--													{% if row['Service'] == 'sendwhatsapp' %}-->
 <!--														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa fa-tty text-primary fs-5"></i>-->

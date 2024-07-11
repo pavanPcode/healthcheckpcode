@@ -284,6 +284,21 @@ def CampusAdvertisement():
         return render_template('error-500.html', text=str(e)), 500
 
 
+@app.route('/campusimgs', methods=['GET', 'POST'])
+@login_required
+def campusimgs():
+    try:
+        if request.method == 'POST':
+            campusimgs_path = request.form.get('campusimgs', '')
+            if campusimgs_path ==None or campusimgs_path == "":
+                return "images not uploded"
+            external_url = f'https://pcuploadfiles.azurewebsites.net/download?path={campusimgs_path}'
+            return redirect(external_url)
+
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
+
+
 @app.route('/CampusAnnouncement', methods=['GET', 'POST'])
 @login_required
 def CampusAnnouncement():
@@ -334,7 +349,6 @@ def CampusNotifications():
         #                 order by n.createdon desc"""
         sqlobj = mssqlhelper.MSSQLHelper(dbcampus)
         data = sqlobj.queryall(quary)
-        print(data)
         return render_template('main.html', htmlpage="CampusNotifications.html", data=data['ResultData'], name=name, role=role)
         #return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'],name=name,role=role)
 

@@ -185,20 +185,7 @@
 							<li class="submenu-open">
 								<h6 class="submenu-hdr">Main</h6>
 								<ul>
-
-									<li class="submenu">
-										<a href="javascript:void(0);"><i data-feather="smartphone"></i><span>Notify</span><span class="menu-arrow"></span></a>
-										<ul>
-											<li class="submenu submenu-two"><a href="javascript:void(0);">Mails Logs<span class="menu-arrow inside-submenu"></span></a>
-												<ul>
-													<li><a href="{{ url_for('indexatt') }}">Mails</a></li>
-													<li><a href="{{ url_for('indexatt') }}">Mails Attachments</a></li>
-													<li><a href="call-history.html">MailsWithBcc</a></li>
-
-												</ul>
-											</li>
-											<li><a href="calendar.html">whatsApp Logs</a></li>
-										</ul>
+									<li><a href="{{ url_for('indexatt') }}"><i data-feather="book-open"></i><span>Notify</span></a></li>
 									<li><a href="{{ url_for('RolcallLogs') }}"><i data-feather="book-open"></i><span>RollCall Mails</span></a></li>
 									<li class="submenu">
 									<a href="javascript:void(0);"><i data-feather="smartphone"></i><span>BookMyOt</span><span class="menu-arrow"></span></a>
@@ -207,6 +194,14 @@
 											<li><a href="{{ url_for('BookMyOtMobileNotifications') }}">Mobile Notifications</a></li>
 										</ul>
 									</li>
+									<li class="submenu">
+										<a href="{{ url_for('indexatt') }}"><i data-feather="git-merge"></i><span>CampusManagement</span><span class="menu-arrow"></span></a>
+										<ul>
+											<li><a href="{{ url_for('CampusAdvertisement') }}">Advertisements</a></li>
+											<li><a href="{{ url_for('CampusAnnouncement') }}">Announcements</a></li>
+											<li><a href="{{ url_for('CampusNotifications') }}">Notifications</a></li>
+											</li>
+										</ul>
 									<li><a href="{{ url_for('novotel') }}"><i data-feather="archive"></i><span>Novotel</span></a></li>
 
 									</li>
@@ -223,7 +218,7 @@
 										</ul>
 									</li>
 										<li><a href="Fit4Life.html"><i data-feather="codepen"></i><span>Fit4Life</span></a></li>
-									<li><a href="CampusManagement.html"><i data-feather="git-merge"></i><span>CampusManagement </span></a></li>
+<!--									<li><a href="CampusManagement.html"><i data-feather="git-merge"></i><span>CampusManagement </span></a></li>-->
 <!--									<li><a href="product-list.html"><i data-feather="box"></i><span>Products</span></a></li>-->
 <!--									<li><a href="add-product.html"><i data-feather="plus-square"></i><span>Create Product</span></a></li>-->
 

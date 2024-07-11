@@ -10,7 +10,7 @@ app.secret_key = 'your_secret_keyahfdk343jhdjjkjrjt765dgfgfggf6565sal'
 
 dbnamerollcall = 'rcalerts_Prod'
 dbbookmyot = 'bookmyot'
-
+dbcampus = 'CampusManagement'
 
 def login_required(f):
     @wraps(f)
@@ -254,6 +254,92 @@ def BookMyOtMobileNotifications():
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
+
+@app.route('/CampusAdvertisement', methods=['GET', 'POST'])
+@login_required
+def CampusAdvertisement():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+        if request.method == 'GET':
+            quary = """select top 50 superid,Title , Description,startdate,EndDate,filepath from [Campus].[OnlineComm] where type = 4 and isactive = 1
+                        order by CreatedOn desc"""
+        elif request.method == 'POST':
+            chosen_date = request.form['chosen_date']
+            original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
+            chosen_date = original_date.strftime("%Y-%m-%d")
+
+            quary = f"""select top 200 n.Title,n.message,n.createdon,p.firstname,n.PhysicianId from [dbo].[Notifications]  n
+                        inner join Physician p on p.id = n.PhysicianId 
+                        WHERE n.createdon between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59'
+                        order by n.createdon desc"""
+        sqlobj = mssqlhelper.MSSQLHelper(dbcampus)
+        data = sqlobj.queryall(quary)
+        print(data)
+        return render_template('main.html', htmlpage="CampusAdvertisement.html", data=data['ResultData'], name=name, role=role)
+        #return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/CampusAnnouncement', methods=['GET', 'POST'])
+@login_required
+def CampusAnnouncement():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+        if request.method == 'GET':
+            quary = """select top 50 superid,Title , Description,startdate,EndDate,filepath from [Campus].[OnlineComm] where type = 5 and isactive = 1
+                        order by CreatedOn desc"""
+        elif request.method == 'POST':
+            chosen_date = request.form['chosen_date']
+            original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
+            chosen_date = original_date.strftime("%Y-%m-%d")
+
+            quary = f"""select top 200 n.Title,n.message,n.createdon,p.firstname,n.PhysicianId from [dbo].[Notifications]  n
+                        inner join Physician p on p.id = n.PhysicianId 
+                        WHERE n.createdon between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59'
+                        order by n.createdon desc"""
+        sqlobj = mssqlhelper.MSSQLHelper(dbcampus)
+        data = sqlobj.queryall(quary)
+        print(data)
+        return render_template('main.html', htmlpage="CampusAnnouncement.html", data=data['ResultData'], name=name, role=role)
+        #return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/CampusNotifications', methods=['GET', 'POST'])
+@login_required
+def CampusNotifications():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+        if request.method == 'GET':
+            quary = """select top 50 superid,Title , Description,startdate,EndDate from [Campus].[OnlineComm] where type = 6 and isactive = 1
+                        order by CreatedOn desc"""
+        elif request.method == 'POST':
+            chosen_date = request.form['chosen_date']
+            original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
+            chosen_date = original_date.strftime("%Y-%m-%d")
+
+            quary = f"""select top 200 n.Title,n.message,n.createdon,p.firstname,n.PhysicianId from [dbo].[Notifications]  n
+                        inner join Physician p on p.id = n.PhysicianId 
+                        WHERE n.createdon between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59'
+                        order by n.createdon desc"""
+        sqlobj = mssqlhelper.MSSQLHelper(dbcampus)
+        data = sqlobj.queryall(quary)
+        print(data)
+        return render_template('main.html', htmlpage="CampusNotifications.html", data=data['ResultData'], name=name, role=role)
+        #return render_template('main.html', htmlpage="BookMyOtMobileNotification.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
 
 # Custom 404 error handler
 @app.errorhandler(404)

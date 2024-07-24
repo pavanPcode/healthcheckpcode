@@ -78,7 +78,7 @@ def indexatt():
         role = session_data['role']
 
         if request.method == 'GET':
-            quary = """select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc from MailLog 
+            quary = """select superid,Service,toaddr,Mailmessage,Status,createdon,message as resultResponce,bcc,message from MailLog 
                         order by createdon desc limit 100;"""
 
         elif request.method == 'POST':
@@ -89,7 +89,7 @@ def indexatt():
             original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
             chosen_date = original_date.strftime("%Y-%m-%d")
 
-            quary = f"""select superid,Service,toaddr,Status,createdon,Mailmessage,message as resultResponce,bcc from MailLog
+            quary = f"""select superid,Service,toaddr,Status,createdon,Mailmessage,message as resultResponce,bcc,message from MailLog
                         where type = {log_type} and Status = '{status}' and createdon between '{chosen_date} 00:00:01' and 
                         '{chosen_date} 23:59:59'"""
         sqlobj = mysqlhelper.MySQLHelper()

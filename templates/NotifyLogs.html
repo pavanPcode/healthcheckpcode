@@ -123,6 +123,7 @@
 											<th>status</th>
 											<th>mailMessage</th>
 											<th>createdOn</th>
+											<th>ApiResponce</th>
                     					</tr>
 									</thead>
 
@@ -157,6 +158,9 @@
 													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['Mailmessage'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
 												</td>
 												<td>{{ row['createdon'] }}</td>
+												<td >
+													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['message'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
+												</td>
 												{% endfor %}
 											</tr>
 

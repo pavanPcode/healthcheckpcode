@@ -1,12 +1,12 @@
 import configparser
 import mysql.connector
 #Faqs_Apis
-dbname = 'HealthCheck_Prod'
+# dbname = 'HealthCheck_Prod'
 
 class MySQLHelper:
     CONFIG_PATH = 'dbConfig.ini'
 
-    def __init__(self):
+    def __init__(self,dbname):
         config = configparser.ConfigParser()
         config.read(self.CONFIG_PATH)
         self.dbinfo = {

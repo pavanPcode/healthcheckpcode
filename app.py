@@ -4,7 +4,7 @@ import mssqlhelper
 from datetime import datetime
 from functools import wraps
 from SignInCheck import verify
-
+from utilities.utility import get_current_ist_time
 app = Flask(__name__)
 app.secret_key = 'your_secret_keyahfdk343jhdjjkjrjt765dgfgfggf6565sal'
 
@@ -12,6 +12,8 @@ dbnamerollcall = 'rcalerts_Prod'
 dbbookmyot = 'bookmyot'
 dbcampus = 'CampusManagement'
 Fit4Life = "Fit4Life"
+HealthCheck_Prod = 'HealthCheck_Prod'
+dbcloudrollcallSwipes= 'Hrms'
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -65,8 +67,110 @@ def get_data_from_session():
         role = "Developer"
     else:
         role = role
-
     return {'name':name,'role':role}
+
+@app.route('/cloudrollcallSwipes',methods=['POST','GET'])
+@login_required
+def cloudrollcallSwipes():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
+        if request.method == 'GET':
+            cur_ist_date, cur_ist_time = get_current_ist_time()
+            cur_ist_datestr = cur_ist_date.strftime('%Y-%m-%d')
+            quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon
+                    FROM HrmsSwipeTransactions WHERE 
+                         DATE(punchdt) = '{cur_ist_datestr}' ; """
+        elif request.method == 'POST':
+            # Retrieve form data
+            #log_type = request.form['log_type']
+            status = request.form['Attandancetype']
+            chosen_date = request.form['chosen_date']
+            ispushed = request.form['ispushed']
+            original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
+            chosen_date = original_date.strftime("%Y-%m-%d")
+            quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon
+                    FROM SwipeTransactions WHERE 
+                         DATE(punchdt) = '{chosen_date}' and  ischeckin = {status} and ispushed = {ispushed}"""
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.queryall(quary)
+        return render_template('main.html', htmlpage="cloudrollcallSwipesforzoho.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        print(e)
+        return render_template('error-500.html', text=str(e)), 500
+
+@app.route('/zohosettings',methods=['GET'])
+@login_required
+def zohosettings():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
+        quary = f"""select * from Hrmszohosettings; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.queryall(quary)
+        print(data)
+        return render_template('main.html', htmlpage="zohoSettings.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        print(e)
+        return render_template('error-500.html', text=str(e)), 500
+
+@app.route('/add_rollcal_token', methods=['POST'])
+def create_category():
+    # Capture form data
+    superid = request.form.get('superid')
+    token = request.form.get('token')
+    notes = request.form.get('notes')
+
+    quary = f"""INSERT INTO Hrmscloudrollcallconfigurations (superid, token, notes) 
+                    VALUES ({superid}, '{token}', '{notes}'); """
+    sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+    data = sqlobj.update(quary)
+    # Redirect to the category list or do other processing
+    return redirect(url_for('cloudrollcallsettings'))
+
+
+@app.route('/cloudrollcallsettings',methods=['GET'])
+@login_required
+def cloudrollcallsettings():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
+        quary = f"""select *  from Hrmscloudrollcallconfigurations where isactive = 1; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.queryall(quary)
+        print(data)
+        return render_template('main.html', htmlpage="cloudrollcallsettings.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        print(e)
+        return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/IceHrmssettings',methods=['GET'])
+@login_required
+def IceHrmssettings():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
+        quary = f"""select *  from HrmsIceHrmsSettings where isactive = 1; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.queryall(quary)
+        print(data)
+        return render_template('main.html', htmlpage="IceHrmsettings.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        print(e)
+        return render_template('error-500.html', text=str(e)), 500
 
 
 @app.route('/',methods=['POST','GET'])
@@ -92,10 +196,9 @@ def indexatt():
             quary = f"""select superid,Service,toaddr,Status,createdon,Mailmessage,message as resultResponce,bcc,message from MailLog
                         where type = {log_type} and Status = '{status}' and createdon between '{chosen_date} 00:00:01' and 
                         '{chosen_date} 23:59:59'"""
-        sqlobj = mysqlhelper.MySQLHelper()
+        sqlobj = mysqlhelper.MySQLHelper(HealthCheck_Prod)
         data = sqlobj.queryall(quary)
         return render_template('main.html', htmlpage="NotifyLogs.html", data=data['ResultData'],name=name,role=role)
-
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
@@ -152,7 +255,7 @@ def novotel():
             where dateoftransaction between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59' and cameratype = '{cameratype}'
             order by id desc limit 100;"""
 
-        sqlobj = mysqlhelper.MySQLHelper()
+        sqlobj = mysqlhelper.MySQLHelper(HealthCheck_Prod)
         data = sqlobj.queryall(quary)
         return render_template('main.html', htmlpage="Novotel.html", data=data['ResultData'],name=name,role=role)
 

@@ -38,7 +38,7 @@ def login():
                 session['crmemail1'] = email
                 session['name'] = result['name']
                 session['role'] = result['role']
-                # flash('Login successful!', 'success')
+                # flash('Login successful!', 'success')#
                 return redirect(url_for('indexatt'))
             else:
                 # flash('Invalid credentials', 'danger')

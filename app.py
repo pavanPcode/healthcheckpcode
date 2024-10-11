@@ -80,7 +80,7 @@ def cloudrollcallSwipes():
         if request.method == 'GET':
             cur_ist_date, cur_ist_time = get_current_ist_time()
             cur_ist_datestr = cur_ist_date.strftime('%Y-%m-%d')
-            quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon
+            quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon,superId
                     FROM HrmsSwipeTransactions WHERE 
                          DATE(punchdt) = '{cur_ist_datestr}' ; """
         elif request.method == 'POST':
@@ -91,7 +91,7 @@ def cloudrollcallSwipes():
             ispushed = request.form['ispushed']
             original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
             chosen_date = original_date.strftime("%Y-%m-%d")
-            quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon
+            quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon,superId
                     FROM hrmsSwipeTransactions WHERE 
                          DATE(punchdt) = '{chosen_date}' and  ischeckin = {status} and ispushed = {ispushed}"""
             print(quary)
@@ -544,4 +544,4 @@ def internal_server_error(error):
     return render_template('error-500.html'), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

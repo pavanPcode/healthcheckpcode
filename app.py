@@ -120,6 +120,23 @@ def zohosettings():
         print(e)
         return render_template('error-500.html', text=str(e)), 500
 
+@app.route('/FrappeHrSettings',methods=['GET'])
+@login_required
+def FrappeHrSettings():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
+        quary = f"""select * from FrappeHrSettings; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.queryall(quary)
+        return render_template('main.html', htmlpage="FrappeHrSettings.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        print(e)
+        return render_template('error-500.html', text=str(e)), 500
+
 @app.route('/add_rollcal_token', methods=['POST'])
 def create_category():
     # Capture form data
@@ -526,4 +543,4 @@ def internal_server_error(error):
     return render_template('error-500.html'), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

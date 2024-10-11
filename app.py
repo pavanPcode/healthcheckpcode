@@ -92,8 +92,9 @@ def cloudrollcallSwipes():
             original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
             chosen_date = original_date.strftime("%Y-%m-%d")
             quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon
-                    FROM SwipeTransactions WHERE 
+                    FROM hrmsSwipeTransactions WHERE 
                          DATE(punchdt) = '{chosen_date}' and  ischeckin = {status} and ispushed = {ispushed}"""
+            print(quary)
         sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
         data = sqlobj.queryall(quary)
         return render_template('main.html', htmlpage="cloudrollcallSwipesforzoho.html", data=data['ResultData'],name=name,role=role)

@@ -5,8 +5,8 @@ import pyodbc
 # dbname = 'rcalerts_Prod'
 
 class MSSQLHelper:
+    # CONFIG_PATH = '../dbConfig.ini'
     CONFIG_PATH = 'dbConfig.ini'
-
     def __init__(self,dbname):
         config = configparser.ConfigParser()
         config.read(self.CONFIG_PATH)

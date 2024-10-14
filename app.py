@@ -3,7 +3,7 @@ from Dal import mysqlhelper, mssqlhelper
 from datetime import datetime
 from utilities.utility import get_current_ist_time,get_data_from_session
 from routess.signin import auth,login_required
-from routess import NotifyLogs,BookMyOtLogs,RollcallMails,CampusLogs,Fit4LifeLogs,Novotel
+from routess import NotifyLogs,BookMyOtLogs,RollcallMails,CampusLogs,Fit4LifeLogs,Novotel,Timerjob
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_keyahfdk343jhdjjkjrjt765dgfgfggf6565sal'
@@ -18,7 +18,7 @@ app.register_blueprint(RollcallMails.Rollcallmailsapp)
 app.register_blueprint(CampusLogs.Campusapp)
 app.register_blueprint(Fit4LifeLogs.Fit4Lifeapp)
 app.register_blueprint(Novotel.Novotelapp)
-
+app.register_blueprint(Timerjob.TimerJobsapp)
 @app.route('/cloudrollcallSwipes',methods=['POST','GET'])
 @login_required
 def cloudrollcallSwipes():

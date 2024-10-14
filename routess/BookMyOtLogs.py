@@ -50,7 +50,6 @@ def BookMyOtmailLogs():
 
         sqlobj = mssqlhelper.MSSQLHelper(dbbookmyot)
         data = sqlobj.queryall(quary)
-
         filterquary = """select DISTINCT Title from [dbo].[EmailNotifications] where Title is not null order by title desc"""
         filter = sqlobj.queryall(filterquary)
         return render_template('main.html', htmlpage="BookMyOtMails.html", data=data['ResultData'],

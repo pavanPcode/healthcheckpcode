@@ -29,7 +29,7 @@
 							</li>
 						</ul>
 						<div class="page-btn">
-							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-sales-new">BookMyOt Mobile Notifications
+							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-timerjob"><i data-feather="plus-circle" class="me-2"></i>Add Scheduler
 </a>
 						</div>
 					</div>
@@ -55,8 +55,8 @@
 								</div>
 							</div>
 
-							<!-- /Filter -->
-<!--							<form id="filterForm" action="/BookMyOtMobileNotifications" method="POST">-->
+							<!--/Filter-->
+<!--							<form id="filterForm" action="/getScheduleJobs" method="POST">-->
 
 <!--							<div class="card" id="filter_inputs">-->
 <!--								<div class="card-body pb-0">-->
@@ -109,15 +109,16 @@
 											</th>
 											<th>SuperId</th>
 											<th>ProcessUrl</th>
-											<th>StartDateStr</th>
-											<th>StartTimeStr</th>
-											<th>EndTimeStr</th>
+<!--											<th>StartDateStr</th>-->
+<!--											<th>StartTimeStr</th>-->
+<!--											<th>EndTimeStr</th>-->
 											<th>intervalType</th>
 											<th>Interval</th>
 											<th>Notes</th>
-											<th>DeviceId</th>
-											<th>Notify</th>
-											<th>FailedAttemptstoNotify</th>
+<!--											<th>DeviceId</th>-->
+<!--											<th>Notify</th>-->
+<!--											<th>FailedAttemptstoNotify</th>-->
+                                            <th class="text-center">Action</th>
 
                     					</tr>
 									</thead>
@@ -136,15 +137,32 @@
 												<td>
                                             <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['ProcessUrl'] }}" class="fa-regular fa-envelope text-primary fs-5"></i>
 												</td>
-												<td>{{ row['StartDateStr'] }}</td>
-												<td>{{ row['StartTimeStr'] }}</td>
-												<td>{{ row['EndTimeStr'] }}</td>
+<!--												<td>{{ row['StartDateStr'] }}</td>-->
+<!--												<td>{{ row['StartTimeStr'] }}</td>-->
+<!--												<td>{{ row['EndTimeStr'] }}</td>-->
 												<td>{{ row['intervalType'] }}</td>
 												<td>{{ row['Interval'] }}</td>
 												<td>{{ row['Notes'] }}</td>
-												<td>{{ row['DeviceId'] }}</td>
-												<td>{{ row['Notify'] }}</td>
-												<td>{{ row['FailedAttemptstoNotify'] }}</td>
+<!--												<td>{{ row['DeviceId'] }}</td>-->
+<!--												<td>{{ row['Notify'] }}</td>-->
+<!--												<td>{{ row['FailedAttemptstoNotify'] }}</td>-->
+
+                                                <td class="text-center">
+												<a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
+													<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+												</a>
+												<ul class="dropdown-menu">
+													<li>
+														<a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#jobs-details-new"><i data-feather="eye" class="info-img"></i>Sale Detail</a>
+													</li>
+													<li>
+														<a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit-sales-new"><i data-feather="edit" class="info-img"></i>Edit Sale</a>
+													</li>
+													<li>
+														<a href="javascript:void(0);" class="dropdown-item confirm-text mb-0"><i data-feather="trash-2" class="info-img"></i>Delete Sale</a>
+													</li>
+												</ul>
+											</td>
 
 <!--												<td>-->
 <!--                                            <i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['toaddr'] }}" class="fa-regular fa-envelope text-primary fs-5 "></i>-->
@@ -192,3 +210,219 @@
 
         </div>
 		<!-- /Main Wrapper -->
+
+			<!-- Add Popup Modal -->
+<div class="modal fade" id="add-timerjob">
+    <div class="modal-dialog add-centered">
+        <div class="modal-content">
+            <div class="page-wrapper p-0 m-0">
+                <div class="content p-0">
+                    <div class="modal-header border-0 custom-modal-header">
+                        <div class="page-title">
+                            <h4>Add Timer Job</h4>
+                        </div>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Form submission to Flask route -->
+                            <form action="{{ url_for('TimerJobsapp.add_timer_job') }}" method="POST">
+                                <div class="row">
+                                    <!-- Superid Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>Superid</label>
+                                            <div class="input-groupicon select-code" required>
+                                                <input type="number" name="superid" class="p-2" placeholder="superid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Date Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>Date</label>
+                                            <div class="input-groupicon calender-input">
+                                                <i data-feather="calendar" class="info-img"></i>
+                                                <input type="text" name="date" class="datetimepicker" placeholder="Choose">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Time Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>StartTime</label>
+                                            <div class="input-groupicon calender-input">
+                                                <i data-feather="calendar" class="info-img"></i>
+                                                <input type="text" name="starttime" class="timepicker" placeholder="Choose">
+                                            </div>
+                                        </div>
+                                    </div>
+									 <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>EndTime</label>
+                                            <div class="input-groupicon calender-input">
+                                                <i data-feather="calendar" class="info-img"></i>
+                                                <input type="text" name="endtime" class="timepicker" placeholder="Choose">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ProcessUrl Field -->
+                                    <div class="col-lg-12 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>ProcessUrl</label>
+                                            <div class="input-groupicon select-code">
+                                                <input type="text" name="process_url" placeholder="Please type GET API">
+                                                <div class="addonset">
+                                                    <img src="assets/img/icons/qrcode-scan.svg" alt="img">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- IntervalType Field -->
+                                    <!-- IntervalType Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>IntervalType</label>
+                                            <select class="select" name="interval_type" required>
+                                                <option value="">Choose</option>
+                                                <!-- Loop through interval_types passed from Flask -->
+                                                {% for interval_type in interval_types %}
+                                                    <option value="{{ interval_type }}">{{ interval_type }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Interval Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>Interval</label>
+                                            <div class="input-groupicon select-code">
+                                                <input type="number" name="interval" class="p-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Notes Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>Notes</label>
+                                            <div class="input-groupicon select-code">
+                                                <input type="text" name="notes" class="p-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- DeviceId Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>DeviceId</label>
+                                            <div class="input-groupicon select-code">
+                                                <input type="number" name="device_id"  class="p-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Notify Field -->
+<!--                                    <div class="col-lg-3 col-sm-6 col-12">-->
+<!--                                        <div class="input-blocks">-->
+<!--                                            <label>Notify</label>-->
+<!--                                            <div class="input-groupicon select-code">-->
+<!--                                                <input type="text" name="notify" class="p-2">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="mb-0">-->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="status-toggle modal-status d-flex justify-content-between align-items-center">
+                                            <span class="status-label">IsNotify</span>
+                                            <input type="checkbox" id="notify" name="notify" class="check" checked>
+                                            <label for="notify" class="checktoggle"></label>
+                                        </div>
+                                    </div>
+
+                                    <!-- FailedAttemptsToNotify Field -->
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="input-blocks">
+                                            <label>FailedAttemptsToNotify</label>
+                                            <div class="input-groupicon select-code">
+                                                <input type="number" name="failed_attempts"  class="p-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Submit and Cancel Buttons -->
+                                    <div class="col-lg-12 text-end">
+                                        <button type="button" class="btn btn-cancel add-cancel me-3" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-submit add-sale">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- End form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Popup Modal -->
+
+
+<!-- details popup -->
+		<div class="modal fade" id="jobs-details-new">
+			<div class="modal-dialog sales-details-modal">
+				<div class="modal-content">
+					<div class="page-wrapper details-blk">
+						<div class="content p-0">
+							<div class="page-header p-4 mb-0">
+								<div class="add-item d-flex">
+									<div class="page-title modal-datail">
+										<h4>Sales Detail : SL0101</h4>
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-body">
+									<form action="sales-list.html">
+										<div class="invoice-box table-height" style="max-width: 1600px;width:100%;overflow: auto;padding: 0;font-size: 14px;line-height: 24px;color: #555;">
+											<div class="sales-details-items d-flex">
+												<div class="details-item">
+													<h6>Customer Info</h6>
+													<p>walk-in-customer<br>
+														walk-in-customer@example.com<br>
+														123456780<br>
+														N45 , Dhaka
+													</p>
+												</div>
+												<div class="details-item">
+													<h6>Company Info</h6>
+													<p>DGT<br>
+														admin@example.com<br>
+														6315996770<br>
+														3618 Abia Martin Drive
+													</p>
+												</div>
+												<div class="details-item">
+													<h6>Invoice Info</h6>
+													<p>Reference<br>
+														Payment Status<br>
+														Status
+													</p>
+												</div>
+												<div class="details-item">
+													<h5><span>SL0101</span>Paid<br> Completed</h5>
+												</div>
+											</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /details popup -->

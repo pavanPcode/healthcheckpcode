@@ -143,7 +143,6 @@ def IceHrmssettings():
 @app.errorhandler(404)
 @login_required
 def page_not_found(error):
-    print(error)
     return render_template('under-maintenance.html'), 404
 
 # Custom 500 error handler

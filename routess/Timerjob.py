@@ -9,6 +9,18 @@ DBTimerJobs = 'TimerJobs'
 # Create a blueprint instance
 TimerJobsapp = Blueprint('TimerJobsapp', __name__)
 
+# Function to convert date format
+def convert_date_format(date_str):
+    # Parse the input date in the format '15-10-2024'
+    date_obj = datetime.strptime(date_str, "%d-%m-%Y")
+    # Convert to '2024-10-15' format
+    return date_obj.strftime("%Y-%m-%d")
+
+def Convert_12hr_to_24hrs(time_str):
+    # Convert to 24-hour format
+
+    # If the input is in 12-hour format, convert it
+    return datetime.strptime(time_str, "%I:%M %p").strftime("%H:%M")
 
 
 @TimerJobsapp.route('/getScheduleJobs', methods=['GET', 'POST'])
@@ -18,11 +30,13 @@ def getScheduleJobs():
         session_data = get_data_from_session()
         name = session_data['name']
         role = session_data['role']
+        interval_types = ["minute", "hourly","daily","weekly","monthly","yearly"]
+
         if request.method == 'GET':
             quary = """SELECT [SuperId],[ProcessUrl], CAST([StartDate] AS VARCHAR(10)) AS StartDateStr,LEFT(CAST([StartTime] AS VARCHAR(20)), 8) AS StartTimeStr, 
     LEFT(CAST([EndTime] AS VARCHAR(20)), 8) AS EndTimeStr,[intervalType], 
     [Interval],[IsActive],[TimeOutSec],[Notes],[DeviceId],[Notify],[FailedAttemptstoNotify] 
-FROM [dbo].[ScheduleJobs] WHERE [IsActive] = 1 ;"""
+FROM [dbo].[ScheduleJobs] WHERE [IsActive] = 1 order by id desc;"""
         # elif request.method == 'POST':
         #     chosen_date = request.form['chosen_date']
         #     original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
@@ -34,64 +48,49 @@ FROM [dbo].[ScheduleJobs] WHERE [IsActive] = 1 ;"""
         #                 order by n.createdon desc"""
         sqlobj = mssqlhelper.MSSQLHelper(DBTimerJobs)
         data = sqlobj.queryall(quary)
-        print(data)
         return render_template('main.html', htmlpage="TimerjobsList.html", data=data['ResultData'],
-                               name=name, role=role)
+                               name=name, role=role,interval_types=interval_types)
 
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
 
+# Define the route to display the form and handle form submission
+@TimerJobsapp.route('/add_timer_job', methods=['POST'])
+def add_timer_job():
+    try:
+        if request.method == 'POST':
+            # Retrieve form data
+            superid = request.form.get('superid')
+            date = request.form.get('date')
+            time = request.form.get('time')
+            starttime = request.form.get('starttime')
+            endtime = request.form.get('endtime')
+            process_url = request.form.get('process_url')
+            interval_type = request.form.get('interval_type')
+            interval = request.form.get('interval')
+            notes = request.form.get('notes')
+            device_id = request.form.get('device_id')
+            notify = request.form.get('notify')
+            failed_attempts = request.form.get('failed_attempts')
+            # Add logic to process or save the form data
+            # For now, let's just print it
+            print(f"Superid: {superid}, Date: {date}, Time: {time}",starttime,endtime,process_url,interval_type,interval,notes,device_id,notify,failed_attempts)
+            if notify == 'on':
+                notify =1
+            else:
+                notify =  0
+            insert_ScheduleJobs_query = f"""
+                INSERT INTO [dbo].[ScheduleJobs] 
+                ([SuperId], [ProcessUrl], [StartDate], [StartTime], [EndTime], [intervalType], 
+                [Interval],  [TimeOutSec], [Notes], [CreatedBy], [DeviceId], [Notify], [FailedAttemptstoNotify]) 
+                VALUES ({superid}, '{process_url}','{convert_date_format(date)}', '{Convert_12hr_to_24hrs(starttime)}', '{Convert_12hr_to_24hrs(endtime)}',
+                 '{interval_type}', '{interval}', 30, '{notes}','101',{device_id},{notify},{failed_attempts})
+            """
+            sqlobj = mssqlhelper.MSSQLHelper(DBTimerJobs)
+            data = sqlobj.update(insert_ScheduleJobs_query)
+        return redirect(url_for('TimerJobsapp.getScheduleJobs'))  # Redirect to the same form or another page
 
-
-
-# @TimerJobsapp.route('/BookMyOtmailLogs', methods=['GET', 'POST'])
-# @login_required
-# def BookMyOtmailLogs():
-#     try:
-#         session_data = get_data_from_session()
-#         name = session_data['name']
-#         role = session_data['role']
-#         if request.method == 'GET':
-#             quary = """SELECT * FROM (SELECT p.FirstName AS username,e.title, e.Createdon, e.message FROM [dbo].[EmailNotifications] e
-#                         INNER JOIN Physician p ON p.id = e.PhysicianId
-#                         WHERE e.PhysicianId IS NOT NULL  AND e.hosid IS NULL  AND e.title IS NOT NULL
-#                         UNION ALL
-#                         SELECT h.name AS username, e.title, e.Createdon, e.message FROM [dbo].[EmailNotifications] e
-#                         INNER JOIN Hospital h ON h.id = e.hosid WHERE  e.PhysicianId IS NULL  AND e.hosid IS NOT NULL  AND e.title IS NOT NULL
-#                         ) AS CombinedResults ORDER BY  Createdon DESC
-#                         OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY;"""
-#         elif request.method == 'POST':
-#             title = request.form['title']
-#             chosen_date = request.form['chosen_date']
-#             original_date = datetime.strptime(chosen_date, "%d-%m-%Y")
-#             chosen_date = original_date.strftime("%Y-%m-%d")
-#
-#             quary = f"""SELECT * FROM (SELECT p.FirstName AS username,e.title, e.Createdon, e.message FROM [dbo].[EmailNotifications] e
-#                                     INNER JOIN Physician p ON p.id = e.PhysicianId
-#                                     WHERE e.PhysicianId IS NOT NULL  AND e.hosid IS NULL  AND e.title IS NOT NULL
-#                                     and e.Createdon between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59' and
-#                         e.title = '{title}'
-#
-#
-#                                     UNION ALL
-#
-#                                     SELECT h.name AS username, e.title, e.Createdon, e.message FROM [dbo].[EmailNotifications] e
-#                                     INNER JOIN Hospital h ON h.id = e.hosid WHERE  e.PhysicianId IS NULL  AND e.hosid IS NOT NULL  AND e.title IS NOT NULL
-#                                     and e.Createdon between '{chosen_date} 00:00:01' and '{chosen_date} 23:59:59' and
-#                         e.title = '{title}'
-#                                     ) AS CombinedResults ORDER BY  Createdon DESC
-#                                     OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY;"""
-#
-#         sqlobj = mssqlhelper.MSSQLHelper(dbbookmyot)
-#         data = sqlobj.queryall(quary)
-#
-#         filterquary = """select DISTINCT Title from [dbo].[EmailNotifications] where Title is not null order by title desc"""
-#         filter = sqlobj.queryall(filterquary)
-#         return render_template('main.html', htmlpage="BookMyOtMails.html", data=data['ResultData'],
-#                                filterdata=filter['ResultData'], name=name, role=role)
-#
-#     except Exception as e:
-#         return render_template('error-500.html', text=str(e)), 500
-
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
 

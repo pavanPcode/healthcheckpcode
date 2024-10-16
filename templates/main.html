@@ -286,6 +286,140 @@
 		<!-- Custom JS --><script src="{{ url_for('static',filename='assets/js/theme-script.js') }}"></script>
 		<script src="{{ url_for('static',filename='assets/js/script.js') }}"></script>
 
+<!--			<script>-->
+<!--			$(document).ready(function() {-->
+<!--				// When a user clicks on the view details link-->
+<!--				$('.delete-timerjob').on('click', function() {-->
+<!--					// Retrieve data from the link's data attributes-->
+<!--					var timerid = $(this).data('timerid');-->
+
+<!--					// Populate the modal with the retrieved data-->
+<!--					$('#modal-sales-id').text(timerid);-->
+<!--				});-->
+<!--			});-->
+<!--		</script>-->
+<!--			<script>-->
+<!--    $(document).ready(function() {-->
+<!--        // When the user clicks the delete button-->
+<!--        $('.delete-timerjob').on('click', function() {-->
+<!--            // Retrieve the timerid from the clicked button-->
+<!--            var timerid = $(this).data('timerid');-->
+
+<!--            // Display the timerid in the modal-->
+<!--            $('#modal-timer-id').text(timerid);-->
+
+<!--            // Show the modal-->
+<!--            $('#deleteModal').show();-->
+
+<!--            // When user clicks confirm, send AJAX request-->
+<!--            $('#confirm-delete').on('click', function() {-->
+<!--                // Send the timerid to Flask using AJAX-->
+<!--                $.ajax({-->
+<!--                    url: '/delete_timer_job',-->
+<!--                    method: 'POST',-->
+<!--                    data: { timerid: timerid },-->
+<!--                    success: function(response) {-->
+<!--                        alert(response.message);-->
+<!--                        // Optionally, hide the modal and refresh the page-->
+<!--                        $('#deleteModal').hide();-->
+<!--                        location.reload(); // Refresh the page to reflect changes-->
+<!--                    }-->
+<!--                });-->
+<!--            });-->
+
+<!--            // Hide the modal if user clicks cancel-->
+<!--            $('#cancel-delete').on('click', function() {-->
+<!--                $('#deleteModal').hide();-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+			<style>
+    /* Modal background */
+    .timerjob-modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    }
+
+    /* Modal content */
+    .timerjob-modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Center the modal */
+        background-color: #fff; /* White background */
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    }
+
+    /* Button styles */
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #timerjob-confirm-delete {
+        background-color: #ff4d4d; /* Red for delete */
+        color: white;
+    }
+
+    #timerjob-cancel-delete {
+        background-color: #ccc; /* Gray for cancel */
+        color: black;
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        // When the user clicks the delete button
+        $('.timerjob-delete-btn').on('click', function() {
+            // Retrieve the timer job ID from the clicked button
+            var timerjobid = $(this).data('timerjobid');
+
+            // Display the timer job ID in the modal
+            $('#timerjob-modal-id').text(timerjobid);
+
+            // Show the modal
+            $('#timerjob-delete-modal').show();
+        });
+
+        // When the user clicks confirm, send AJAX request
+        $('#timerjob-confirm-delete').on('click', function() {
+    var timerjobid = $('#timerjob-modal-id').text(); // Get the timer job ID from modal
+    console.log("Timer Job ID: ", timerjobid); // Debugging line
+    $.ajax({
+        url: '/delete_timer_job',
+        method: 'POST',
+        data: { timerjobid: timerjobid },
+        success: function(response) {
+            alert(response.message);
+            $('#timerjob-delete-modal').hide(); // Hide modal after success
+            location.reload(); // Optionally reload the page
+        }
+    });
+});
+
+        // Hide the modal if the user clicks cancel
+        $('#timerjob-cancel-delete').on('click', function() {
+            $('#timerjob-delete-modal').hide();
+        });
+    });
+</script>
+
+
 		<script>
         $(document).ready(function() {
             // When a user clicks on the view details link

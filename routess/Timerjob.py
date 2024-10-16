@@ -33,7 +33,7 @@ def getScheduleJobs():
         interval_types = ["minute", "hourly","daily","weekly","monthly","yearly"]
 
         if request.method == 'GET':
-            quary = """SELECT [SuperId],[ProcessUrl], CAST([StartDate] AS VARCHAR(10)) AS StartDateStr,LEFT(CAST([StartTime] AS VARCHAR(20)), 8) AS StartTimeStr, 
+            quary = """SELECT id timerid,[SuperId],[ProcessUrl], CAST([StartDate] AS VARCHAR(10)) AS StartDateStr,LEFT(CAST([StartTime] AS VARCHAR(20)), 8) AS StartTimeStr, 
     LEFT(CAST([EndTime] AS VARCHAR(20)), 8) AS EndTimeStr,[intervalType], 
     [Interval],[IsActive],[TimeOutSec],[Notes],[DeviceId],[Notify],[FailedAttemptstoNotify] 
 FROM [dbo].[ScheduleJobs] WHERE [IsActive] = 1 order by id desc;"""
@@ -48,6 +48,7 @@ FROM [dbo].[ScheduleJobs] WHERE [IsActive] = 1 order by id desc;"""
         #                 order by n.createdon desc"""
         sqlobj = mssqlhelper.MSSQLHelper(DBTimerJobs)
         data = sqlobj.queryall(quary)
+        print(data)
         return render_template('main.html', htmlpage="TimerjobsList.html", data=data['ResultData'],
                                name=name, role=role,interval_types=interval_types)
 
@@ -119,3 +120,15 @@ def edit_timer_job():
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
+
+@TimerJobsapp.route('/delete_timer_job', methods=['POST'])
+def delete_timer_job():
+    # Get the timerid from the AJAX request
+    timerid = request.form.get('timerjobid')
+
+    insert_ScheduleJobs_query = f""" update  [dbo].[ScheduleJobs] set  [IsActive] = 0  WHERE id = {timerid}; """
+    print(insert_ScheduleJobs_query)
+    sqlobj = mssqlhelper.MSSQLHelper(DBTimerJobs)
+    data = sqlobj.update(insert_ScheduleJobs_query)
+    print(data,'data')
+    return {'message': f'Timer job {timerid} deleted successfully.'}

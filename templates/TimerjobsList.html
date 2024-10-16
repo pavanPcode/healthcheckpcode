@@ -4,7 +4,7 @@
 						<div class="add-item d-flex">
 							<div class="page-title">
 								<h4>TimerJobs</h4>
-								<h6>All Mobile Notifications</h6>
+								<h6>Manage your TimerJobs</h6>
 							</div>
 						</div>
 						<ul class="table-top-head">
@@ -167,24 +167,38 @@
 														   data-failedattemptstonotify="{{ row['FailedAttemptstoNotify'] }}"
 														><i data-feather="eye" class="info-img"></i>Full Details</a>
 													</li>
-													<li>
-														<a href="javascript:void(0);" class="dropdown-item view-details" data-bs-toggle="modal" data-bs-target="#edit-timerjob"
-														   data-superid="{{ row['SuperId'] }}"
-														   data-processurl="{{ row['ProcessUrl'] }}"
-														   data-startdate="{{ row['StartDateStr'] }}"
-														   data-starttime="{{ row['StartTimeStr'] }}"
-														   data-endtime="{{ row['EndTimeStr'] }}"
-														   data-intervaltype="{{ row['intervalType'] }}"
-														   data-interval="{{ row['Interval'] }}"
-														   data-notes="{{ row['Notes'] }}"
-														   data-deviceid="{{ row['DeviceId'] }}"
-														   data-notify="{{ row['Notify'] }}"
-														   data-failedattemptstonotify="{{ row['FailedAttemptstoNotify'] }}"
-														><i data-feather="edit" class="info-img"></i>Edit </a>
-													</li>
-													<li>
-														<a href="javascript:void(0);" class="dropdown-item confirm-text mb-0"><i data-feather="trash-2" class="info-img"></i>Delete</a>
-													</li>
+<!--                                                    <li>-->
+<!--														<a href="javascript:void(0);" class="dropdown-item confirm-text mb-0 delete-timerjob"><i data-feather="trash-2" class="info-img"></i>Delete</a>-->
+<!--													</li>-->
+                                                    <!-- Delete Timer Job Button -->
+<!--                                                        <li>-->
+<!--                                                            <a href="javascript:void(0);" class="dropdown-item confirm-text mb-0 delete-timerjob" data-timerid="{{ row['id'] }}">-->
+<!--                                                                <i data-feather="trash-2" class="info-img"></i>Delete-->
+<!--                                                            </a>-->
+<!--                                                        </li>-->
+                                                            <!-- Delete Timer Job Button -->
+<li>
+    <a href="javascript:void(0);" class="dropdown-item  timerjob-delete-btn" data-timerjobid="{{ row['timerid'] }}">
+        <i data-feather="trash-2" class="info-img"></i>Delete
+    </a>
+</li>
+
+<!--													<li>-->
+<!--														<a href="javascript:void(0);" class="dropdown-item view-details" data-bs-toggle="modal" data-bs-target="#edit-timerjob"-->
+<!--														   data-superid="{{ row['SuperId'] }}"-->
+<!--														   data-processurl="{{ row['ProcessUrl'] }}"-->
+<!--														   data-startdate="{{ row['StartDateStr'] }}"-->
+<!--														   data-starttime="{{ row['StartTimeStr'] }}"-->
+<!--														   data-endtime="{{ row['EndTimeStr'] }}"-->
+<!--														   data-intervaltype="{{ row['intervalType'] }}"-->
+<!--														   data-interval="{{ row['Interval'] }}"-->
+<!--														   data-notes="{{ row['Notes'] }}"-->
+<!--														   data-deviceid="{{ row['DeviceId'] }}"-->
+<!--														   data-notify="{{ row['Notify'] }}"-->
+<!--														   data-failedattemptstonotify="{{ row['FailedAttemptstoNotify'] }}"-->
+<!--														><i data-feather="edit" class="info-img"></i>Edit </a>-->
+<!--													</li>-->
+
 												</ul>
 											</td>
 
@@ -641,3 +655,23 @@
 			</div>
 		</div>
 		<!-- /details popup -->
+
+<!--            &lt;!&ndash; Modal for Confirmation &ndash;&gt;-->
+<!--<div id="deleteModal" class="modal">-->
+<!--    <div class="modal-content">-->
+<!--        <h4>Confirm Deletion</h4>-->
+<!--        <p>Are you sure you want to delete timer job with ID: <span id="modal-timer-id"></span>?</p>-->
+<!--        <button id="confirm-delete">Yes</button>-->
+<!--        <button id="cancel-delete">No</button>-->
+<!--    </div>-->
+<!--</div>-->
+
+            <!-- Modal for Confirmation -->
+<div id="timerjob-delete-modal" class="timerjob-modal">
+    <div class="timerjob-modal-content">
+        <h4>Confirm Deletion</h4>
+        <p>Are you sure you want to delete timer job with ID: <span id="timerjob-modal-id"></span>?</p>
+        <button id="timerjob-confirm-delete">Yes</button>
+        <button id="timerjob-cancel-delete">No</button>
+    </div>
+</div>

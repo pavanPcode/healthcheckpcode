@@ -31,7 +31,7 @@ def cloudrollcallSwipes():
             cur_ist_datestr = cur_ist_date.strftime('%Y-%m-%d')
             quary = f"""SELECT id, transid, deviceid, empcode, punchdt, ischeckin, ispushed, createdon,superId
                     FROM HrmsSwipeTransactions WHERE 
-                         DATE(punchdt) = '{cur_ist_datestr}' ; """
+                         DATE(punchdt) = '{cur_ist_datestr}' order by punchdt desc; """
         elif request.method == 'POST':
             # Retrieve form data
             #log_type = request.form['log_type']
@@ -51,6 +51,33 @@ def cloudrollcallSwipes():
     except Exception as e:
         print(e)
         return render_template('error-500.html', text=str(e)), 500
+@app.route('/add_zoho_token', methods=['POST'])
+def add_zoho_token():
+    # Retrieve form data from the POST request
+    superid = request.form.get('superid')
+    client_id = request.form.get('clientId')
+    client_secret = request.form.get('clientSecret')
+    refresh_token = request.form.get('refreshToken')
+    access_token = request.form.get('accessToken')
+    zoho_token_url = request.form.get('zohoTokenUrl')
+    attendance_api_url = request.form.get('attendanceApiUrl')
+
+    # Print the data for debugging purposes
+    print(f'SuperId: {superid}')
+    print(f'Client ID: {client_id}')
+    print(f'Client Secret: {client_secret}')
+    print(f'Refresh Token: {refresh_token}')
+    print(f'Access Token: {access_token}')
+    print(f'Zoho Token URL: {zoho_token_url}')
+    print(f'Attendance API URL: {attendance_api_url}')
+    quary = f"""insert into Hrmszohosettings(superid,clientid,clientsecret,refreshtoken,accesstoken,zohotokenurl,attendanceapiurl)
+                values ({superid},'{client_id}','{client_secret}','{refresh_token}','{access_token}','{zoho_token_url}','{attendance_api_url}')"""
+    # You can process the data further here, e.g., saving to a database
+    sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+    data = sqlobj.update(quary)
+    print(data)
+    # Return a response to the client
+    return redirect(url_for('zohosettings'))
 
 @app.route('/zohosettings',methods=['GET'])
 @login_required
@@ -60,7 +87,7 @@ def zohosettings():
         name = session_data['name']
         role = session_data['role']
 
-        quary = f"""select * from Hrmszohosettings; """
+        quary = f"""select * from Hrmszohosettings where isactive = 1; """
         sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
         data = sqlobj.queryall(quary)
         print(data)
@@ -70,6 +97,60 @@ def zohosettings():
         print(e)
         return render_template('error-500.html', text=str(e)), 500
 
+
+@app.route('/delete_zoho_token', methods=['POST'])
+def delete_zoho_token():
+    # Retrieve the token ID (timer job ID)
+    superid = request.form.get('superid')
+    print(superid,'djkhfgkdjh',9348765894348953)
+    if superid:
+        quary = f"""update Hrmszohosettings set isactive = 0 where id = {superid}; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.update(quary)
+        print(data)
+        # Return a success response
+        return {'message': 'Token deleted successfully!'}
+    else:
+        return {'message': 'No token ID provided!'}
+@app.route('/add_FrappeHR', methods=['POST'])
+def add_FrappeHR():
+    # Retrieve form data from the POST request
+    superid = request.form.get('superid')
+    token = request.form.get('token')
+    apisecret = request.form.get('apisecret')
+    checkinapi = request.form.get('checkinapi')
+    checkoutapi = request.form.get('checkoutapi')
+
+    # Print the form data for debugging purposes
+    print(f'SuperId: {superid}')
+    print(f'API Key (Token): {token}')
+    print(f'API Secret: {apisecret}')
+    print(f'Check In API: {checkinapi}')
+    print(f'Check Out API: {checkoutapi}')
+
+    quary = f"""insert into FrappeHrSettings(superid,apikey,apisecret,checkinapi,checkoutapi)
+    values ({superid},'{token}','{apisecret}','{checkinapi}','{checkinapi}')"""
+    sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+    data = sqlobj.update(quary)
+    print(data)
+    # Return a success message or JSON response
+    return redirect(url_for('FrappeHrSettings'))
+
+@app.route('/delete_frappe_token', methods=['POST'])
+def delete_frappe_token():
+    # Retrieve the token ID (timer job ID)
+    superid = request.form.get('superid')
+    print(superid,'djkhfgkdjh',9348765894348953)
+    if superid:
+        quary = f"""update FrappeHrSettings set isactive = 0 where superid = {superid}; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.update(quary)
+        print(data)
+        # Return a success response
+        return {'message': 'Token deleted successfully!'}
+    else:
+        return {'message': 'No token ID provided!'}
+
 @app.route('/FrappeHrSettings',methods=['GET'])
 @login_required
 def FrappeHrSettings():
@@ -78,7 +159,7 @@ def FrappeHrSettings():
         name = session_data['name']
         role = session_data['role']
 
-        quary = f"""select * from FrappeHrSettings; """
+        quary = f"""select * from FrappeHrSettings where isactive = 1; """
         sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
         data = sqlobj.queryall(quary)
         return render_template('main.html', htmlpage="FrappeHrSettings.html", data=data['ResultData'],name=name,role=role)
@@ -102,6 +183,22 @@ def create_category():
     return redirect(url_for('cloudrollcallsettings'))
 
 
+@app.route('/delete_token', methods=['POST'])
+def delete_token():
+    # Retrieve the token ID (timer job ID)
+    superid = request.form.get('superid')
+    print(superid,'djkhfgkdjh',9348765894348953)
+    if superid:
+        quary = f"""update Hrmscloudrollcallconfigurations set isactive = 0 where superid = {superid}; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.update(quary)
+        print(data)
+        # Return a success response
+        return {'message': 'Token deleted successfully!'}
+    else:
+        return {'message': 'No token ID provided!'}
+
+
 @app.route('/cloudrollcallsettings',methods=['GET'])
 @login_required
 def cloudrollcallsettings():
@@ -118,6 +215,45 @@ def cloudrollcallsettings():
     except Exception as e:
         print(e)
         return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/delete_icehrms_token', methods=['POST'])
+def delete_icehrms_token():
+    # Retrieve the token ID (timer job ID)
+    superid = request.form.get('superid')
+    print(superid,'djkhfgkdjh',9348765894348953)
+    if superid:
+        quary = f"""update HrmsIceHrmsSettings set isactive = 0 where superid = {superid}; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.update(quary)
+        print(data)
+        # Return a success response
+        return {'message': 'user deleted successfully!'}
+    else:
+        return {'message': 'No  ID provided!'}
+
+@app.route('/add_icehrms_user', methods=['POST'])
+def add_icehrms_user():
+    # Retrieve form data from the POST request
+    superid = request.form.get('superid')
+    token = request.form.get('token')
+    punchinapi = request.form.get('punchinapi')
+    punchoutapi = request.form.get('punchoutapi')
+
+    # Print the form data for debugging
+    print(f'SuperId: {superid}')
+    print(f'authToken: {token}')
+    print(f'punchInApi: {punchinapi}')
+    print(f'punchOutApi: {punchoutapi}')
+    quary = f"""insert into HrmsIceHrmsSettings (superid,authtoken,punchinapi,punchoutapi)
+values({superid},'{token}','{punchinapi}','{punchoutapi}')"""
+    sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+    data = sqlobj.update(quary)
+    print(data)
+    # Optionally, do something with the data (e.g., save to a database)
+    # Return a success message
+    return redirect(url_for('IceHrmssettings'))
+
 
 @app.route('/IceHrmssettings',methods=['GET'])
 @login_required

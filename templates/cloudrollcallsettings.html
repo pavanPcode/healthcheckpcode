@@ -163,10 +163,13 @@
 												</td>
 												<td class="action-table-data">
 												<div class="edit-delete-action">
-													<a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category">
-														<i data-feather="edit" class="feather-edit"></i>
-													</a>
-													<a class="confirm-text p-2" href="javascript:void(0);">
+<!--													<a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category">-->
+<!--														<i data-feather="edit" class="feather-edit"></i>-->
+<!--													</a>-->
+<!--													<a class="confirm-text p-2" href="javascript:void(0);">-->
+<!--														<i data-feather="trash-2" class="feather-trash-2"></i>-->
+<!--													</a>-->
+													<a href="javascript:void(0);" class="token-delete-btn" data-timerjobid="{{ row['superid'] }}">
 														<i data-feather="trash-2" class="feather-trash-2"></i>
 													</a>
 												</div>
@@ -281,3 +284,13 @@
 			</div>
 		</div>
 		<!-- /Edit Category -->
+
+			            <!-- Modal for Confirmation -->
+<div id="token-delete-btn" class="timerjob-modal">
+    <div class="timerjob-modal-content">
+        <h4>Confirm Deletion</h4>
+        <p>Are you sure you want to delete timer job with ID: <span id="timerjob-modal-id"></span>?</p>
+        <button id="timerjob-confirm-delete">Yes</button>
+        <button id="timerjob-cancel-delete">No</button>
+    </div>
+</div>

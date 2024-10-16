@@ -187,24 +187,21 @@
 												</td>
 												<td class="action-table-data">
 												<div class="edit-delete-action">
-													<a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category">
-														<i data-feather="edit" class="feather-edit"></i>
-													</a>
-													<a class="confirm-text p-2" href="javascript:void(0);">
-														<i data-feather="trash-2" class="feather-trash-2"></i>
-													</a>
+<!--													<a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category">-->
+<!--														<i data-feather="edit" class="feather-edit"></i>-->
+<!--													</a>-->
+<!--													<a class="confirm-text p-2" href="javascript:void(0);">-->
+<!--														<i data-feather="trash-2" class="feather-trash-2"></i>-->
+<!--													</a>-->
+													<a href="javascript:void(0);" class="zoho-delete-btn" data-timerjobid="{{ row['id'] }}">
+														<i data-feather="trash-2" class="feather-trash-2"></i></a>
 												</div>
-
 											</td>
 												{% endfor %}
 											</tr>
-
 									</tbody>
-
 								</table>
-
 							</div>
-
 							{% else %}
 								<p class="text-center fs-2">No Data Available</p>
 								{% endif %}
@@ -236,42 +233,83 @@
 					</div>
 					<div class="modal-body custom-modal-body">
 						<!-- Update form action and method -->
-						<form action="/add_rollcal_token" method="POST">
-							<div class="mb-3">
-								<label class="form-label">SuperId</label>
-								<input type="number" class="form-control" name="superid" required>
-							</div>
+<!--						<form action="/add_rollcal_token" method="POST">-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">SuperId</label>-->
+<!--								<input type="number" class="form-control" name="superid" required>-->
+<!--							</div>-->
 
-							<div class="mb-3">
-								<label class="form-label">clientId</label>
-								<input type="text" class="form-control" name="token" required>
-							</div>
-							<div class="mb-3">
-								<label class="form-label">clientSecret</label>
-								<input type="text" class="form-control" name="notes">
-							</div>
-							<div class="mb-3">
-								<label class="form-label">refreshToken</label>
-								<input type="text" class="form-control" name="notes">
-							</div>
-							<div class="mb-3">
-								<label class="form-label">accessToken</label>
-								<input type="text" class="form-control" name="notes">
-							</div>
-							<div class="mb-3">
-								<label class="form-label">zohoTokenUrl</label>
-								<input type="text" class="form-control" name="notes">
-							</div>
-							<div class="mb-3">
-								<label class="form-label">attendanceApiUrl</label>
-								<input type="text" class="form-control" name="notes">
-							</div>
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">clientId</label>-->
+<!--								<input type="text" class="form-control" name="token" required>-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">clientSecret</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">refreshToken</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">accessToken</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">zohoTokenUrl</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">attendanceApiUrl</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
 
-							<div class="modal-footer-btn">
-								<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
-								<button type="submit" class="btn btn-submit">Create  Zoho User</button>
-							</div>
-						</form>
+<!--							<div class="modal-footer-btn">-->
+<!--								<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>-->
+<!--								<button type="submit" class="btn btn-submit">Create  Zoho User</button>-->
+<!--							</div>-->
+<!--						</form>-->
+						<form action="/add_zoho_token" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label">SuperId</label>
+                                <input type="number" class="form-control" name="superid" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">clientId</label>
+                                <input type="text" class="form-control" name="clientId" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">clientSecret</label>
+                                <input type="text" class="form-control" name="clientSecret">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">refreshToken</label>
+                                <input type="text" class="form-control" name="refreshToken">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">accessToken</label>
+                                <input type="text" class="form-control" name="accessToken">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">zohoTokenUrl</label>
+                                <input type="text" class="form-control" name="zohoTokenUrl">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">attendanceApiUrl</label>
+                                <input type="text" class="form-control" name="attendanceApiUrl">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create Zoho User</button>
+                            </div>
+                        </form>
 					</div>
 				</div>
 			</div>
@@ -336,3 +374,13 @@
 			</div>
 		</div>
 		<!-- /Edit Category -->
+
+<!--			zohodelete-->
+			</div><div id="zoho-delete-btn" class="timerjob-modal">
+    <div class="timerjob-modal-content">
+        <h4>Confirm Deletion</h4>
+        <p>Are you sure you want to delete timer job with ID: <span id="timerjob-modal-id"></span>?</p>
+        <button id="timerjob-confirm-delete">Yes</button>
+        <button id="timerjob-cancel-delete">No</button>
+    </div>
+</div>

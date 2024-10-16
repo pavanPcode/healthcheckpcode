@@ -286,55 +286,8 @@
 		<!-- Custom JS --><script src="{{ url_for('static',filename='assets/js/theme-script.js') }}"></script>
 		<script src="{{ url_for('static',filename='assets/js/script.js') }}"></script>
 
-<!--			<script>-->
-<!--			$(document).ready(function() {-->
-<!--				// When a user clicks on the view details link-->
-<!--				$('.delete-timerjob').on('click', function() {-->
-<!--					// Retrieve data from the link's data attributes-->
-<!--					var timerid = $(this).data('timerid');-->
 
-<!--					// Populate the modal with the retrieved data-->
-<!--					$('#modal-sales-id').text(timerid);-->
-<!--				});-->
-<!--			});-->
-<!--		</script>-->
-<!--			<script>-->
-<!--    $(document).ready(function() {-->
-<!--        // When the user clicks the delete button-->
-<!--        $('.delete-timerjob').on('click', function() {-->
-<!--            // Retrieve the timerid from the clicked button-->
-<!--            var timerid = $(this).data('timerid');-->
-
-<!--            // Display the timerid in the modal-->
-<!--            $('#modal-timer-id').text(timerid);-->
-
-<!--            // Show the modal-->
-<!--            $('#deleteModal').show();-->
-
-<!--            // When user clicks confirm, send AJAX request-->
-<!--            $('#confirm-delete').on('click', function() {-->
-<!--                // Send the timerid to Flask using AJAX-->
-<!--                $.ajax({-->
-<!--                    url: '/delete_timer_job',-->
-<!--                    method: 'POST',-->
-<!--                    data: { timerid: timerid },-->
-<!--                    success: function(response) {-->
-<!--                        alert(response.message);-->
-<!--                        // Optionally, hide the modal and refresh the page-->
-<!--                        $('#deleteModal').hide();-->
-<!--                        location.reload(); // Refresh the page to reflect changes-->
-<!--                    }-->
-<!--                });-->
-<!--            });-->
-
-<!--            // Hide the modal if user clicks cancel-->
-<!--            $('#cancel-delete').on('click', function() {-->
-<!--                $('#deleteModal').hide();-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
-
+<!--			for delete popup-->
 			<style>
     /* Modal background */
     .timerjob-modal {
@@ -381,8 +334,7 @@
         color: black;
     }
 </style>
-
-<script>
+			<script>
     $(document).ready(function() {
         // When the user clicks the delete button
         $('.timerjob-delete-btn').on('click', function() {
@@ -419,8 +371,7 @@
     });
 </script>
 
-
-		<script>
+			<script>
         $(document).ready(function() {
             // When a user clicks on the view details link
             $('.view-details').on('click', function() {
@@ -454,5 +405,113 @@
             });
         });
     </script>
+<!--			tokendelete-->
+			<script>
+    $(document).ready(function() {
+        // When the user clicks the delete button
+        $('.token-delete-btn').on('click', function() {
+            // Retrieve the token ID (superid) from the clicked button
+            var timerjobid = $(this).data('timerjobid');
+
+            // Display the token ID in a modal or confirm box
+            if (confirm('Are you sure you want to delete this token?')) {
+                // Send the AJAX request to Flask for deletion
+                $.ajax({
+                    url: '/delete_token',  // Flask route
+                    method: 'POST',
+                    data: { superid: timerjobid },  // Send the timer job ID (token id)
+                    success: function(response) {
+                        alert(response.message);  // Show success message
+                        location.reload();  // Optionally reload the page
+                    },
+                    error: function(response) {
+                        alert('Error deleting token. Please try again.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!--			icedelete-->
+			<script>
+    $(document).ready(function() {
+        // When the user clicks the delete button
+        $('.ice-delete-btn').on('click', function() {
+            // Retrieve the token ID (superid) from the clicked button
+            var timerjobid = $(this).data('timerjobid');
+
+            // Display the token ID in a modal or confirm box
+            if (confirm('Are you sure you want to delete this token?')) {
+                // Send the AJAX request to Flask for deletion
+                $.ajax({
+                    url: '/delete_icehrms_token',  // Flask route
+                    method: 'POST',
+                    data: { superid: timerjobid },  // Send the timer job ID (token id)
+                    success: function(response) {
+                        alert(response.message);  // Show success message
+                        location.reload();  // Optionally reload the page
+                    },
+                    error: function(response) {
+                        alert('Error deleting token. Please try again.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!--			frappedelete-->
+			<script>
+    $(document).ready(function() {
+        // When the user clicks the delete button
+        $('.frap-delete-btn').on('click', function() {
+            // Retrieve the token ID (superid) from the clicked button
+            var timerjobid = $(this).data('timerjobid');
+
+            // Display the token ID in a modal or confirm box
+            if (confirm('Are you sure you want to delete this token?')) {
+                // Send the AJAX request to Flask for deletion
+                $.ajax({
+                    url: '/delete_frappe_token',  // Flask route
+                    method: 'POST',
+                    data: { superid: timerjobid },  // Send the timer job ID (token id)
+                    success: function(response) {
+                        alert(response.message);  // Show success message
+                        location.reload();  // Optionally reload the page
+                    },
+                    error: function(response) {
+                        alert('Error deleting token. Please try again.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+			<!--			zohodelete-->
+			<script>
+    $(document).ready(function() {
+        // When the user clicks the delete button
+        $('.zoho-delete-btn').on('click', function() {
+            // Retrieve the token ID (superid) from the clicked button
+            var timerjobid = $(this).data('timerjobid');
+
+            // Display the token ID in a modal or confirm box
+            if (confirm('Are you sure you want to delete this token?')) {
+                // Send the AJAX request to Flask for deletion
+                $.ajax({
+                    url: '/delete_zoho_token',  // Flask route
+                    method: 'POST',
+                    data: { superid: timerjobid },  // Send the timer job ID (token id)
+                    success: function(response) {
+                        alert(response.message);  // Show success message
+                        location.reload();  // Optionally reload the page
+                    },
+                    error: function(response) {
+                        alert('Error deleting token. Please try again.');
+                    }
+                });
+            }
+        });
+    });
+</script>
     </body>
 </html>

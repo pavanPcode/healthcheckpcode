@@ -94,3 +94,28 @@ def add_timer_job():
     except Exception as e:
         return render_template('error-500.html', text=str(e)), 500
 
+
+@TimerJobsapp.route('/edit_timer_job', methods=['POST'])
+def edit_timer_job():
+    try:
+        if request.method == 'POST':
+            # Retrieve form data
+            superid = request.form.get('superid')
+            date = request.form.get('date')
+            time = request.form.get('time')
+            starttime = request.form.get('starttime')
+            endtime = request.form.get('endtime')
+            process_url = request.form.get('process_url')
+            interval_type = request.form.get('interval_type')
+            interval = request.form.get('interval')
+            notes = request.form.get('notes')
+            device_id = request.form.get('device_id')
+            notify = request.form.get('notify')
+            failed_attempts = request.form.get('failed_attempts')
+            # Add logic to process or save the form data
+            # For now, let's just print it
+            print(f"Superid: {superid}, Date: {date}, Time: {time}",starttime,endtime,process_url,interval_type,interval,notes,device_id,notify,failed_attempts)
+            return 'suss'
+    except Exception as e:
+        return render_template('error-500.html', text=str(e)), 500
+

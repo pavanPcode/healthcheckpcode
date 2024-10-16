@@ -286,6 +286,39 @@
 		<!-- Custom JS --><script src="{{ url_for('static',filename='assets/js/theme-script.js') }}"></script>
 		<script src="{{ url_for('static',filename='assets/js/script.js') }}"></script>
 
+		<script>
+        $(document).ready(function() {
+            // When a user clicks on the view details link
+            $('.view-details').on('click', function() {
+                // Retrieve data from the link's data attributes
+                var superId = $(this).data('superid');
+                var processurl = $(this).data('processurl');
+                var startdate = $(this).data('startdate');
+                var starttime = $(this).data('starttime');
+                var endtime = $(this).data('endtime');
+                var interval = $(this).data('interval');
+                var intervaltype = $(this).data('intervaltype');
+                var notes = $(this).data('notes');
+                var deviceid = $(this).data('deviceid');
+                var notify = $(this).data('notify');
+                var failedattemptstonotify = $(this).data('failedattemptstonotify');
 
+
+                // Populate the modal with the retrieved data
+                $('#modal-sales-id').text(superId);
+                $('#modal-superid-id').text(superId);
+                $('#modal-startdate').text(startdate);
+                $('#modal-processurl').text(processurl);
+                $('#modal-starttime').text(starttime);
+                $('#modal-endtime').text(endtime);
+                $('#modal-interval').text(interval);
+                $('#modal-intervaltype').text(intervaltype);
+                $('#modal-notes').text(notes);
+                $('#modal-deviceid').text(deviceid);
+                $('#modal-notify').text(notify);
+                $('#modal-failedattemptstonotify').text(failedattemptstonotify);
+            });
+        });
+    </script>
     </body>
 </html>

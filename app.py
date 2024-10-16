@@ -113,13 +113,11 @@ def cloudrollcallsettings():
         quary = f"""select *  from Hrmscloudrollcallconfigurations where isactive = 1; """
         sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
         data = sqlobj.queryall(quary)
-        print(data)
+        # print(data)
         return render_template('main.html', htmlpage="cloudrollcallsettings.html", data=data['ResultData'],name=name,role=role)
-
     except Exception as e:
         print(e)
         return render_template('error-500.html', text=str(e)), 500
-
 
 @app.route('/IceHrmssettings',methods=['GET'])
 @login_required
@@ -128,7 +126,6 @@ def IceHrmssettings():
         session_data = get_data_from_session()
         name = session_data['name']
         role = session_data['role']
-
         quary = f"""select *  from HrmsIceHrmsSettings where isactive = 1; """
         sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
         data = sqlobj.queryall(quary)

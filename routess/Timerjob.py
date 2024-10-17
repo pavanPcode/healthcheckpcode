@@ -16,11 +16,16 @@ def convert_date_format(date_str):
     # Convert to '2024-10-15' format
     return date_obj.strftime("%Y-%m-%d")
 
-def Convert_12hr_to_24hrs(time_str):
-    # Convert to 24-hour format
+# def Convert_12hr_to_24hrs(time_str):
+#     # Convert to 24-hour format
+#
+#     # If the input is in 12-hour format, convert it
+#     return datetime.strptime(time_str, "%I:%M %p").strftime("%H:%M")
 
-    # If the input is in 12-hour format, convert it
-    return datetime.strptime(time_str, "%I:%M %p").strftime("%H:%M")
+# Remove AM/PM from the time string
+def Convert_12hr_to_24hrs(time_str):
+    # Remove AM/PM from the time string and add seconds
+    return time_str[:-3].strip() + ":00"
 
 
 @TimerJobsapp.route('/getScheduleJobs', methods=['GET', 'POST'])
@@ -74,6 +79,9 @@ def add_timer_job():
             device_id = request.form.get('device_id')
             notify = request.form.get('notify')
             failed_attempts = request.form.get('failed_attempts')
+            print('failed_attempts',failed_attempts,type(failed_attempts))
+            if failed_attempts =='None' or failed_attempts =='':
+                failed_attempts = 0
             # Add logic to process or save the form data
             # For now, let's just print it
             print(f"Superid: {superid}, Date: {date}, Time: {time}",starttime,endtime,process_url,interval_type,interval,notes,device_id,notify,failed_attempts)
@@ -88,8 +96,10 @@ def add_timer_job():
                 VALUES ({superid}, '{process_url}','{convert_date_format(date)}', '{Convert_12hr_to_24hrs(starttime)}', '{Convert_12hr_to_24hrs(endtime)}',
                  '{interval_type}', '{interval}', 30, '{notes}','101',{device_id},{notify},{failed_attempts})
             """
+            print(insert_ScheduleJobs_query)
             sqlobj = mssqlhelper.MSSQLHelper(DBTimerJobs)
             data = sqlobj.update(insert_ScheduleJobs_query)
+            print(data)
         return redirect(url_for('TimerJobsapp.getScheduleJobs'))  # Redirect to the same form or another page
 
     except Exception as e:

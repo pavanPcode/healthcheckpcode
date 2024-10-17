@@ -1,0 +1,377 @@
+			<div class="page-wrapper">
+				<div class="content">
+					<div class="page-header">
+						<div class="add-item d-flex">
+							<div class="page-title">
+								<h4>OrangeHrms</h4>
+								<h6>Configurations</h6>
+							</div>
+						</div>
+						<ul class="table-top-head">
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"><img src="{{ url_for('static',filename='assets/imgpcode/pdf.svg') }}" alt="img"></a>
+							</li>
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"><img src="{{ url_for('static',filename='assets/imgpcode/excel.svg') }}" alt="img"></a>
+							</li>
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Print"><i data-feather="printer" class="feather-rotate-ccw"></i></a>
+							</li>
+							<li>
+<!--								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i data-feather="rotate-ccw" class="feather-rotate-ccw"></i></a>-->
+									<a href="{{ url_for('Notifyapp.indexatt') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh">
+										<i data-feather="rotate-ccw" class="feather-rotate-ccw"></i>
+									</a>
+
+							</li>
+							<li>
+								<a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i data-feather="chevron-up" class="feather-chevron-up"></i></a>
+							</li>
+						</ul>
+						<div class="page-btn">
+							<a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#add-category"><i data-feather="plus-circle" class="me-2"></i>Add OrangeHrms
+							</a>
+						</div>
+					</div>
+					<!-- /product list -->
+					<div class="card table-list-card" >
+						<div class="card-body" style="max-height: 100px, overflow-y:auto">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-input">
+										<a href="" class="btn btn-searchset"><i data-feather="search" class="feather-search"></i></a>
+									</div>
+								</div>
+								<div class="search-path">
+									<div class="d-flex align-items-center">
+										<a class="btn btn-filter" id="filter_search">
+											<i data-feather="filter" class="filter-icon"></i>
+											<span><img src="{{ url_for('static',filename='assets/imgpcode/closes.svg') }}" alt="img"></span>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- /Filter -->
+<!--							<form id="filterForm" action="/zohosettings" method="POST">-->
+
+<!--							<div class="card" id="filter_inputs">-->
+<!--								<div class="card-body pb-0">-->
+<!--									<div class="row">-->
+<!--&lt;!&ndash;										<div class="col-lg-3 col-sm-6 col-12">&ndash;&gt;-->
+<!--&lt;!&ndash;											<div class="input-blocks">&ndash;&gt;-->
+<!--&lt;!&ndash;												<i data-feather="user" class="info-img"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;												<select class="select" name="log_type">&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="type">Logs</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="4">whatsapp</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="1">Mails</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="2">MailAttachments</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="3">MailWithBcc</option>&ndash;&gt;-->
+<!--&lt;!&ndash;												</select>&ndash;&gt;-->
+<!--&lt;!&ndash;											</div>&ndash;&gt;-->
+<!--&lt;!&ndash;										</div>&ndash;&gt;-->
+<!--										<div class="col-lg-2 col-sm-6 col-12">-->
+<!--											<div class="input-blocks">-->
+<!--												<i data-feather="stop-circle" class="info-img"></i>-->
+<!--												<select class="select" name="Attandancetype">-->
+<!--													<option value="ischeckin">Attandance</option>-->
+<!--													<option value="1">CheckIn</option>-->
+<!--													<option value="0">CheckOut</option>-->
+<!--												</select>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<div class="col-lg-2 col-sm-6 col-12">-->
+<!--											<div class="input-blocks">-->
+<!--												<i data-feather="stop-circle" class="info-img"></i>-->
+<!--												<select class="select" name="ispushed">-->
+<!--													<option value="ispushed">ispushed</option>-->
+<!--													<option value="1">success</option>-->
+<!--													<option value="0">Failed</option>-->
+<!--												</select>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<div class="col-lg-2 col-sm-6 col-12">-->
+<!--											<div class="input-blocks">-->
+<!--												<div class="input-groupicon calender-input">-->
+<!--													<i data-feather="calendar" class="info-img"></i>-->
+<!--														<input type="text" class="datetimepicker" name="chosen_date" placeholder="Choose Date" required>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
+
+<!--										<div class="col-lg-2 col-sm-6 col-12" >-->
+<!--											<div class="input-blocks">-->
+<!--&lt;!&ndash;												<a class="btn btn-filters ms-auto"> <i data-feather="search" class="feather-search"></i> Search </a>&ndash;&gt;-->
+<!--													                        <button type="submit" class="btn btn-filters ms-auto"><i data-feather="search" class="feather-search"></i> Search</button>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							</form>-->
+
+							<!-- /Filter -->
+							{% if data and data|length > 0 %}
+							<div class="table-responsive">
+
+								<table class="table  datanew">
+
+									<thead>
+										<tr>
+											<th class="no-sort">
+												<label class="checkboxs">
+													<input type="checkbox" id="select-all">
+													<span class="checkmarks"></span>
+												</label>
+											</th>
+											<th>superId</th>
+											<th>OrgName</th>
+											<th>clientid</th>
+											<th>accessToken</th>
+											<th>refreshToken</th>
+											<th>OrangeHrmUrl</th>
+											<th>isactive</th>
+											<th>createdOn</th>
+											<th class="no-sort">Action</th>
+                    					</tr>
+									</thead>
+
+
+									<tbody class="sales-list">
+
+										{% for row in data %}
+											<tr>
+												<td>
+													<label class="checkboxs">
+														<input type="checkbox">
+														<span class="checkmarks"></span>
+													</label>
+												</td>
+												<td>{{ row['superid'] }}</td>
+												<td>{{ row['OrgName'] }}</td>
+												<td >
+													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['clientid'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
+												</td>
+<!--												<td>{{ row['clientSecret'] }}</td>-->
+												<td >
+													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['accessToken'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
+												</td>
+<!--												<td>{{ row['refreshToken'] }}</td>-->
+												<td >
+													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['refreshToken'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
+												</td>
+<!--												<td>{{ row['accessToken'] }}</td>-->
+												<td >
+													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['OrangeHrmUrl'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
+												</td>
+												<td>
+													{% if row['isactive'] == 1 %}
+														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="Active" class="fa fa-check text-primary fs-5"></i>
+													{% else %}
+														<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="InActive" class="fa fa-times-circle text-primary fs-5"></i>
+													{% endif %}
+												</td>
+
+<!--												<td>{{ row['createdOn'] }}</td>-->
+												<td >
+													<i data-bs-toggle="tooltip" data-bs-custom-class="tooltip-dark" data-bs-placement="top" data-bs-original-title="{{ row['createdon'] }}" class="fa-regular fa-comment text-primary fs-5"></i>
+												</td>
+												<td class="action-table-data">
+												<div class="edit-delete-action">
+<!--													<a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category">-->
+<!--														<i data-feather="edit" class="feather-edit"></i>-->
+<!--													</a>-->
+<!--													<a class="confirm-text p-2" href="javascript:void(0);">-->
+<!--														<i data-feather="trash-2" class="feather-trash-2"></i>-->
+<!--													</a>-->
+													<a href="javascript:void(0);" class="orange-delete-btn" data-timerjobid="{{ row['id'] }}">
+														<i data-feather="trash-2" class="feather-trash-2"></i></a>
+												</div>
+											</td>
+												{% endfor %}
+											</tr>
+									</tbody>
+								</table>
+							</div>
+							{% else %}
+								<p class="text-center fs-2">No Data Available</p>
+								{% endif %}
+
+
+
+						</div>
+					</div>
+					<!-- /product list -->
+				</div>
+			</div>
+
+        </div>
+		<!-- /Main Wrapper -->
+
+						<!-- Add Category -->
+<div class="modal fade" id="add-category">
+	<div class="modal-dialog modal-dialog-centered custom-modal-two">
+		<div class="modal-content">
+			<div class="page-wrapper-new p-0">
+				<div class="content">
+					<div class="modal-header border-0 custom-modal-header">
+						<div class="page-title">
+							<h4>Add OrangeHrm User</h4>
+						</div>
+						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body custom-modal-body">
+						<!-- Update form action and method -->
+<!--						<form action="/add_rollcal_token" method="POST">-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">SuperId</label>-->
+<!--								<input type="number" class="form-control" name="superid" required>-->
+<!--							</div>-->
+
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">clientId</label>-->
+<!--								<input type="text" class="form-control" name="token" required>-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">clientSecret</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">refreshToken</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">accessToken</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">zohoTokenUrl</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+<!--							<div class="mb-3">-->
+<!--								<label class="form-label">attendanceApiUrl</label>-->
+<!--								<input type="text" class="form-control" name="notes">-->
+<!--							</div>-->
+
+<!--							<div class="modal-footer-btn">-->
+<!--								<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>-->
+<!--								<button type="submit" class="btn btn-submit">Create  Zoho User</button>-->
+<!--							</div>-->
+<!--						</form>-->
+						<form action="/add_orangehrm_user" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label">SuperId</label>
+                                <input type="number" class="form-control" name="superid" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">clientId</label>
+                                <input type="text" class="form-control" name="clientId" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">AccessToken</label>
+                                <input type="text" class="form-control" name="accessToken">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">refreshToken</label>
+                                <input type="text" class="form-control" name="refreshToken">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">OrangeHrm client Domain</label>
+                                <input type="text" class="form-control" name="OrangeHrmUrl">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">OrgName</label>
+                                <input type="text" class="form-control" name="OrgName">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">attendanceApiUrl</label>
+                                <input type="text" class="form-control" name="attendanceApiUrl">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Create OrangeHrm User</button>
+                            </div>
+                        </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit Category -->
+		<div class="modal fade" id="edit-category">
+			<div class="modal-dialog modal-dialog-centered custom-modal-two">
+				<div class="modal-content">
+					<div class="page-wrapper-new p-0">
+						<div class="content">
+							<div class="modal-header border-0 custom-modal-header">
+								<div class="page-title">
+									<h4>Edit Zoho User</h4>
+								</div>
+								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body custom-modal-body">
+								<form action="category-list.html">
+									<div class="mb-3">
+								<label class="form-label">SuperId</label>
+								<input type="number" class="form-control" name="superid" required>
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">clientId</label>
+								<input type="text" class="form-control" name="token" required>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">clientSecret</label>
+								<input type="text" class="form-control" name="notes">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">refreshToken</label>
+								<input type="text" class="form-control" name="notes">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">accessToken</label>
+								<input type="text" class="form-control" name="notes">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">zohoTokenUrl</label>
+								<input type="text" class="form-control" name="notes">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">attendanceApiUrl</label>
+								<input type="text" class="form-control" name="notes">
+							</div>
+									<div class="modal-footer-btn">
+										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
+										<button type="submit" class="btn btn-submit">Save Changes</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Edit Category -->
+
+<!--			zohodelete-->
+			</div><div id="orange-delete-btn" class="timerjob-modal">
+    <div class="timerjob-modal-content">
+        <h4>Confirm Deletion</h4>
+        <p>Are you sure you want to delete timer job with ID: <span id="timerjob-modal-id"></span>?</p>
+        <button id="timerjob-confirm-delete">Yes</button>
+        <button id="timerjob-cancel-delete">No</button>
+    </div>
+</div>

@@ -218,6 +218,7 @@
 											<li><a href="{{ url_for('cloudrollcallsettings') }}">CloudrollcallTokens</a></li>
 											<li><a href="{{ url_for('IceHrmssettings') }}">IceHrmssettings</a></li>
 											<li><a href="{{ url_for('FrappeHrSettings') }}">FrappeHrSettings</a></li>
+											<li><a href="{{ url_for('orangehrmsettings') }}">OrangeHrmsettings</a></li>
 											</li>
 										</ul>
 						<li class="submenu">
@@ -499,6 +500,33 @@
                 // Send the AJAX request to Flask for deletion
                 $.ajax({
                     url: '/delete_zoho_token',  // Flask route
+                    method: 'POST',
+                    data: { superid: timerjobid },  // Send the timer job ID (token id)
+                    success: function(response) {
+                        alert(response.message);  // Show success message
+                        location.reload();  // Optionally reload the page
+                    },
+                    error: function(response) {
+                        alert('Error deleting token. Please try again.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+			<!--			orangedelete-->
+			<script>
+    $(document).ready(function() {
+        // When the user clicks the delete button
+        $('.orange-delete-btn').on('click', function() {
+            // Retrieve the token ID (superid) from the clicked button
+            var timerjobid = $(this).data('timerjobid');
+
+            // Display the token ID in a modal or confirm box
+            if (confirm('Are you sure you want to delete this token?')) {
+                // Send the AJAX request to Flask for deletion
+                $.ajax({
+                    url: '/delete_Orange_User',  // Flask route
                     method: 'POST',
                     data: { superid: timerjobid },  // Send the timer job ID (token id)
                     success: function(response) {

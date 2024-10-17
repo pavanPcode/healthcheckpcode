@@ -8,8 +8,6 @@ HealthCheck_Prod = 'HealthCheck_Prod'
 # Create a blueprint instance
 Notifyapp = Blueprint('Notifyapp', __name__)
 
-
-
 @Notifyapp.route('/',methods=['POST','GET'])
 @login_required
 def indexatt():

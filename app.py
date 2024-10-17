@@ -51,6 +51,7 @@ def cloudrollcallSwipes():
     except Exception as e:
         print(e)
         return render_template('error-500.html', text=str(e)), 500
+
 @app.route('/add_zoho_token', methods=['POST'])
 def add_zoho_token():
     # Retrieve form data from the POST request
@@ -96,7 +97,59 @@ def zohosettings():
     except Exception as e:
         print(e)
         return render_template('error-500.html', text=str(e)), 500
+@app.route('/add_orangehrm_user', methods=['POST'])
+def add_orangehrm_user():
+    # Retrieve form data from the POST request
+    superid = request.form.get('superid')
+    client_id = request.form.get('clientId')
+    accessToken = request.form.get('accessToken')
+    refresh_token = request.form.get('refreshToken')
+    OrangeHrmUrl = request.form.get('OrangeHrmUrl')
+    OrgName = request.form.get('OrgName')
 
+    quary = f"""INSERT INTO OrangeHRMSettings (superid, OrgName,clientid, refreshtoken, OrangeHrmUrl,accessToken)
+            VALUES ({superid}, '{OrgName}','{client_id}', '{refresh_token}', '{OrangeHrmUrl}','{accessToken}');"""
+    # You can process the data further here, e.g., saving to a database
+    sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+    data = sqlobj.update(quary)
+    print(data)
+    # Return a response to the client
+    return redirect(url_for('orangehrmsettings'))
+
+@app.route('/orangehrmsettings',methods=['GET'])
+@login_required
+def orangehrmsettings():
+    try:
+        session_data = get_data_from_session()
+        name = session_data['name']
+        role = session_data['role']
+
+        quary = f"""select * from OrangeHRMSettings where isactive = 1; """
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.queryall(quary)
+        print(data)
+        return render_template('main.html', htmlpage="orangeSettings.html", data=data['ResultData'],name=name,role=role)
+
+    except Exception as e:
+        print(e)
+        return render_template('error-500.html', text=str(e)), 500
+
+
+@app.route('/delete_Orange_User', methods=['POST'])
+def delete_Orange_User():
+    # Retrieve the token ID (timer job ID)
+    superid = request.form.get('superid')
+    print(superid,'djkhfgkdjh',9348765894348953)
+    if superid:
+        quary = f"""update OrangeHRMSettings set isactive = 0 where id = {superid}; """
+        print(quary)
+        sqlobj = mysqlhelper.MySQLHelper(dbcloudrollcallSwipes)
+        data = sqlobj.update(quary)
+        print(data)
+        # Return a success response
+        return {'message': 'Token deleted successfully!'}
+    else:
+        return {'message': 'No token ID provided!'}
 
 @app.route('/delete_zoho_token', methods=['POST'])
 def delete_zoho_token():

@@ -174,12 +174,12 @@ def add_FrappeHR():
     checkinapi = request.form.get('checkinapi')
     checkoutapi = request.form.get('checkoutapi')
 
-    # Print the form data for debugging purposes
-    print(f'SuperId: {superid}')
-    print(f'API Key (Token): {token}')
-    print(f'API Secret: {apisecret}')
-    print(f'Check In API: {checkinapi}')
-    print(f'Check Out API: {checkoutapi}')
+    # # Print the form data for debugging purposes
+    # print(f'SuperId: {superid}')
+    # print(f'API Key (Token): {token}')
+    # print(f'API Secret: {apisecret}')
+    # print(f'Check In API: {checkinapi}')
+    # print(f'Check Out API: {checkoutapi}')
 
     quary = f"""insert into FrappeHrSettings(superid,apikey,apisecret,checkinapi,checkoutapi)
     values ({superid},'{token}','{apisecret}','{checkinapi}','{checkinapi}')"""
